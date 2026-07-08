@@ -938,9 +938,9 @@ class VideoService:
             str(output_path),
             f"--props={props_json}",
             "--codec", "h264",
-            "--crf", "23",
-            "--width", "1920",
-            "--height", "1080",
+            "--crf", "26",
+            "--width", "1280",
+            "--height", "720",
             "--concurrency", str(self.remotion_concurrency),
         ]
 
@@ -950,35 +950,46 @@ class VideoService:
         if self.puppeteer_executable_path:
             env["PUPPETEER_EXECUTABLE_PATH"] = self.puppeteer_executable_path
 
+        # 将 stdout 重定向到日志文件，避免管道缓冲区填满导致死锁
+        render_log_path = self.output_dir / f"{task_id}_render.log"
         try:
-            result = subprocess.run(
-                cmd,
-                cwd=str(self.video_generator_dir),
-                capture_output=True,
-                encoding=_SUBPROCESS_ENCODING,
-                timeout=900,  # 15 minute timeout for longer videos
-                env=env,
-            )
+            with open(str(render_log_path), "w", encoding="utf-8") as log_file:
+                result = subprocess.run(
+                    cmd,
+                    cwd=str(self.video_generator_dir),
+                    stdout=log_file,
+                    stderr=subprocess.PIPE,
+                    encoding=_SUBPROCESS_ENCODING,
+                    timeout=1800,  # 30 minute timeout for full video render
+                    env=env,
+                )
 
             if result.returncode != 0:
                 stderr = (result.stderr or "").strip()
-                stdout = (result.stdout or "").strip()
+                # 同时读取日志末尾用于诊断
+                log_tail = ""
+                try:
+                    with open(str(render_log_path), "r", encoding="utf-8") as lf:
+                        lines = lf.readlines()
+                        log_tail = "".join(lines[-10:]) if lines else ""
+                except Exception:
+                    pass
                 runtime_hint = ""
-                combined_output = f"{stderr}\n{stdout}".lower()
+                combined_output = f"{stderr}\n{log_tail}".lower()
                 if "not found" in combined_output or "winerror 2" in combined_output:
                     runtime_hint = f"请先安装 Node.js 并确认 remotion 依赖已安装。node={node_bin} remotion={remotion_cli}"
                 elif "puppeteer" in combined_output or "chrome" in combined_output or "browser" in combined_output:
                     runtime_hint = "请检查 Puppeteer/Chrome 运行环境是否已安装并可访问。"
                 elif "module not found" in combined_output or "cannot find module" in combined_output:
                     runtime_hint = "请先在 video-generator 目录安装前端渲染依赖。"
-                detail = stderr[-500:] if stderr else stdout[-500:]
+                detail = stderr[-500:] if stderr else log_tail[-500:]
                 hint = f" {runtime_hint}" if runtime_hint else ""
                 raise RuntimeError(f"Remotion 渲染失败（rc={result.returncode}）。{detail or '未返回可用日志。'}{hint}")
 
             if not output_path.exists() or output_path.stat().st_size == 0:
                 raise RuntimeError("Remotion 渲染已结束，但没有产出有效 mp4 文件，请检查渲染依赖和输出目录权限")
 
-            print(f"[VideoService] Render output: {result.stdout[-200:]}")
+            print(f"[VideoService] Render complete: {output_path} ({output_path.stat().st_size} bytes)")
             return str(output_path)
 
         except subprocess.TimeoutExpired:
