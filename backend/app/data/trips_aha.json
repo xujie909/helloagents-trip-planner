@@ -1,0 +1,485 @@
+[
+  {
+    "id": "20260618115442_236daf53",
+    "city": "恩施",
+    "start_date": "2026-06-18",
+    "title": "2026-06-18 恩施",
+    "created_at": "2026-06-18 11:54:42",
+    "updated_at": "2026-06-18 11:55:40",
+    "notes": "",
+    "images": [],
+    "tasks": [
+      {
+        "id": "102db9ff",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "恩施土家族苗族自治州博物馆",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "f2754e21",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "恩施州凤凰山森林公园",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "3cb83ab6",
+        "type": "meal",
+        "day": "第1天",
+        "name": "breakfast: 袁氏老烧饼",
+        "done": false,
+        "planned_cost": 15,
+        "actual_cost": 15
+      },
+      {
+        "id": "157caac3",
+        "type": "meal",
+        "day": "第1天",
+        "name": "lunch: 张关合渣(舞阳坝店)",
+        "done": false,
+        "planned_cost": 40,
+        "actual_cost": 40
+      },
+      {
+        "id": "341c6739",
+        "type": "meal",
+        "day": "第1天",
+        "name": "dinner: 醉得意(恩施九立方店)",
+        "done": false,
+        "planned_cost": 50,
+        "actual_cost": 50
+      },
+      {
+        "id": "97f4d551",
+        "type": "hotel",
+        "day": "第1天",
+        "name": "恩施好如家商务宾馆(宾馆一条街店)",
+        "done": false,
+        "planned_cost": 250,
+        "actual_cost": 250
+      },
+      {
+        "id": "294faefa",
+        "type": "attraction",
+        "day": "第2天",
+        "name": "云龙地缝",
+        "done": false,
+        "planned_cost": 80,
+        "actual_cost": 80
+      },
+      {
+        "id": "7bdcf904",
+        "type": "attraction",
+        "day": "第2天",
+        "name": "七星寨景区",
+        "done": false,
+        "planned_cost": 120,
+        "actual_cost": 120
+      },
+      {
+        "id": "5680efb0",
+        "type": "meal",
+        "day": "第2天",
+        "name": "breakfast: 光头炸酱面",
+        "done": false,
+        "planned_cost": 15,
+        "actual_cost": 15
+      },
+      {
+        "id": "754726c5",
+        "type": "meal",
+        "day": "第2天",
+        "name": "lunch: 大峡谷景区内小餐馆",
+        "done": false,
+        "planned_cost": 50,
+        "actual_cost": 50
+      },
+      {
+        "id": "20f0ebf7",
+        "type": "meal",
+        "day": "第2天",
+        "name": "dinner: 钱汤圆(九立方店)",
+        "done": false,
+        "planned_cost": 30,
+        "actual_cost": 30
+      },
+      {
+        "id": "eefc3d0f",
+        "type": "hotel",
+        "day": "第2天",
+        "name": "恩施好如家商务宾馆(宾馆一条街店)",
+        "done": false,
+        "planned_cost": 250,
+        "actual_cost": 250
+      },
+      {
+        "id": "e0d71364",
+        "type": "attraction",
+        "day": "第3天",
+        "name": "恩施抗战历史陈列馆",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "1821536d",
+        "type": "attraction",
+        "day": "第3天",
+        "name": "月亮湖（土司城内）",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "edd2e037",
+        "type": "attraction",
+        "day": "第3天",
+        "name": "茶花园",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "db79c957",
+        "type": "meal",
+        "day": "第3天",
+        "name": "breakfast: 小韩姐姐牛肉汤饭(恩施九立方店)",
+        "done": false,
+        "planned_cost": 20,
+        "actual_cost": 20
+      },
+      {
+        "id": "e6649d74",
+        "type": "meal",
+        "day": "第3天",
+        "name": "lunch: 正宗隆江猪脚饭(九立方店)",
+        "done": false,
+        "planned_cost": 35,
+        "actual_cost": 35
+      },
+      {
+        "id": "24597dc3",
+        "type": "meal",
+        "day": "第3天",
+        "name": "dinner: 老韩煸鸡·中国炸鸡(恩施九立方店)",
+        "done": false,
+        "planned_cost": 40,
+        "actual_cost": 40
+      },
+      {
+        "id": "a44be91e",
+        "type": "hotel",
+        "day": "第3天",
+        "name": "恩施好如家商务宾馆(宾馆一条街店)",
+        "done": false,
+        "planned_cost": 250,
+        "actual_cost": 250
+      }
+    ],
+    "data": {
+      "city": "恩施",
+      "start_date": "2026-06-18",
+      "end_date": "2026-06-20",
+      "days": [
+        {
+          "date": "2026-06-18",
+          "day_index": 0,
+          "description": "第1天：抵达恩施，市区文化探索与美食体验。上午参观恩施州博物馆了解土家族文化，下午漫步凤凰山森林公园感受雨中绿意，晚上在舞阳坝美食街品尝地道小吃。",
+          "transportation": "步行+公交车+出租车",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "恩施好如家商务宾馆(宾馆一条街店)",
+            "address": "民族路1巷8号",
+            "location": {
+              "longitude": 109.4872,
+              "latitude": 30.2813
+            },
+            "price_range": "200-300元",
+            "rating": "4.2",
+            "distance": "距市中心约1公里",
+            "type": "经济型酒店",
+            "estimated_cost": 250
+          },
+          "attractions": [
+            {
+              "name": "恩施土家族苗族自治州博物馆",
+              "address": "金桂大道恩施州文化中心内",
+              "location": {
+                "longitude": 109.4788,
+                "latitude": 30.2947
+              },
+              "visit_duration": 120,
+              "description": "恩施州博物馆是了解土家族、苗族历史文化的重要场所，馆藏丰富，涵盖民族服饰、传统工艺、历史文物等，免费开放，适合雨天室内参观。",
+              "category": "历史文化",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            },
+            {
+              "name": "恩施州凤凰山森林公园",
+              "address": "东风大道361号凤凰山国家森林公园内",
+              "location": {
+                "longitude": 109.4785,
+                "latitude": 30.281
+              },
+              "visit_duration": 90,
+              "description": "凤凰山森林公园是恩施市民休闲胜地，山势平缓，绿树成荫，雨中山间云雾缭绕，别有一番景致。园内有乌龟石、赏心亭等小景点。",
+              "category": "自然风光",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "袁氏老烧饼",
+              "address": null,
+              "location": null,
+              "description": "恩施本地老字号烧饼店，外酥里嫩，配豆浆或豆腐脑，人均约15元。",
+              "estimated_cost": 15
+            },
+            {
+              "type": "lunch",
+              "name": "张关合渣(舞阳坝店)",
+              "address": null,
+              "location": null,
+              "description": "恩施特色名店，合渣（菜豆腐）搭配各种小菜，经济实惠，人均约40元。",
+              "estimated_cost": 40
+            },
+            {
+              "type": "dinner",
+              "name": "醉得意(恩施九立方店)",
+              "address": null,
+              "location": null,
+              "description": "中式快餐连锁，提供炒菜、蒸菜、汤品，价格亲民，人均约50元。",
+              "estimated_cost": 50
+            }
+          ]
+        },
+        {
+          "date": "2026-06-19",
+          "day_index": 1,
+          "description": "第2天：恩施大峡谷全天游。重点游览云龙地缝和七星寨，感受喀斯特地貌的壮美。因有小雨，注意防滑和备雨具。晚上返回市区休息。",
+          "transportation": "包车/出租车+景区交通车",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "恩施好如家商务宾馆(宾馆一条街店)",
+            "address": "民族路1巷8号",
+            "location": {
+              "longitude": 109.4872,
+              "latitude": 30.2813
+            },
+            "price_range": "200-300元",
+            "rating": "4.2",
+            "distance": "距大峡谷景区约70公里",
+            "type": "经济型酒店",
+            "estimated_cost": 250
+          },
+          "attractions": [
+            {
+              "name": "云龙地缝",
+              "address": "沐抚街道恩施大峡谷山脚",
+              "location": {
+                "longitude": 109.1765,
+                "latitude": 30.4592
+              },
+              "visit_duration": 150,
+              "description": "云龙地缝是恩施大峡谷核心景点之一，全长约7.5公里，两岸陡峭，瀑布飞悬，栈道蜿蜒，雨天地缝内水汽氤氲，景色更为壮观。需注意防滑。",
+              "category": "自然风光",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 80
+            },
+            {
+              "name": "七星寨景区",
+              "address": "沐抚街道恩施大峡谷内",
+              "location": {
+                "longitude": 109.1778,
+                "latitude": 30.4605
+              },
+              "visit_duration": 180,
+              "description": "七星寨以绝壁栈道、一炷香等奇峰怪石闻名，海拔较高，小雨天气可能云雾缭绕，如仙境一般。建议穿防滑鞋，如遇恶劣天气部分路段可能关闭。",
+              "category": "自然风光",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 120
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "光头炸酱面",
+              "address": null,
+              "location": null,
+              "description": "市区面馆，手工炸酱面分量足，搭配小菜，人均约15元。",
+              "estimated_cost": 15
+            },
+            {
+              "type": "lunch",
+              "name": "大峡谷景区内小餐馆",
+              "address": null,
+              "location": null,
+              "description": "景区出口处有多家农家乐，提供土家腊肉、土豆饭等简餐，人均约50元。",
+              "estimated_cost": 50
+            },
+            {
+              "type": "dinner",
+              "name": "钱汤圆(九立方店)",
+              "address": null,
+              "location": null,
+              "description": "恩施老牌汤圆店，提供咸甜汤圆、糍粑等小吃，人均约30元，也可点炒菜。",
+              "estimated_cost": 30
+            }
+          ]
+        },
+        {
+          "date": "2026-06-20",
+          "day_index": 2,
+          "description": "第3天：市区历史文化与人文景点。上午参观恩施抗战历史陈列馆，下午游览月亮湖和女儿村茶花园，感受土司文化与园林风光。晚上享受最后一顿恩施美食。",
+          "transportation": "步行+公交车",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "恩施好如家商务宾馆(宾馆一条街店)",
+            "address": "民族路1巷8号",
+            "location": {
+              "longitude": 109.4872,
+              "latitude": 30.2813
+            },
+            "price_range": "200-300元",
+            "rating": "4.2",
+            "distance": "距各景点约1-2公里",
+            "type": "经济型酒店",
+            "estimated_cost": 250
+          },
+          "attractions": [
+            {
+              "name": "恩施抗战历史陈列馆",
+              "address": "公园街6号",
+              "location": {
+                "longitude": 109.4858,
+                "latitude": 30.2872
+              },
+              "visit_duration": 60,
+              "description": "陈列馆位于恩施老城区，展示了抗日战争时期恩施作为第六战区指挥中心的历史，免费参观，是了解恩施近代史的重要场所。",
+              "category": "历史文化",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            },
+            {
+              "name": "月亮湖（土司城内）",
+              "address": "小渡船街道土司路138号恩施土司城内",
+              "location": {
+                "longitude": 109.4821,
+                "latitude": 30.2774
+              },
+              "visit_duration": 60,
+              "description": "月亮湖位于恩施土司城内，湖面如月，四周亭台楼阁，是土司城内的标志性景观，可在此休闲漫步，感受土司文化氛围。",
+              "category": "自然风光",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            },
+            {
+              "name": "茶花园",
+              "address": "女儿村花卉主题公园",
+              "location": {
+                "longitude": 109.484,
+                "latitude": 30.275
+              },
+              "visit_duration": 60,
+              "description": "茶花园位于女儿村花卉主题公园内，种植多种山茶花，虽然6月非盛花期，但园内仍有其他花卉和园林景观，适合雨中漫步。",
+              "category": "自然风光",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "小韩姐姐牛肉汤饭(恩施九立方店)",
+              "address": null,
+              "location": null,
+              "description": "韩式汤饭，牛肉汤鲜美，配米饭小菜，人均约20元。",
+              "estimated_cost": 20
+            },
+            {
+              "type": "lunch",
+              "name": "正宗隆江猪脚饭(九立方店)",
+              "address": null,
+              "location": null,
+              "description": "广式猪脚饭，软糯入味，配例汤，人均约35元。",
+              "estimated_cost": 35
+            },
+            {
+              "type": "dinner",
+              "name": "老韩煸鸡·中国炸鸡(恩施九立方店)",
+              "address": null,
+              "location": null,
+              "description": "新兴炸鸡品牌，口味多样，可外带或堂食，人均约40元。",
+              "estimated_cost": 40
+            }
+          ]
+        }
+      ],
+      "weather_info": [
+        {
+          "date": "2026-06-18",
+          "day_weather": "中雨",
+          "night_weather": "小雨",
+          "day_temp": 23,
+          "night_temp": 20,
+          "wind_direction": "东北风",
+          "wind_power": "1-3级"
+        },
+        {
+          "date": "2026-06-19",
+          "day_weather": "小雨",
+          "night_weather": "小雨",
+          "day_temp": 33,
+          "night_temp": 23,
+          "wind_direction": "西风",
+          "wind_power": "1-3级"
+        },
+        {
+          "date": "2026-06-20",
+          "day_weather": "中雨",
+          "night_weather": "中雨",
+          "day_temp": 31,
+          "night_temp": 23,
+          "wind_direction": "东北风",
+          "wind_power": "1-3级"
+        }
+      ],
+      "overall_suggestions": "恩施三天旅程以自然风光和历史文化为主，但期间连续有雨，建议携带雨衣雨伞和防滑鞋。大峡谷景区雨天可能拥挤，建议尽早出发。市区景点可灵活调整，如遇暴雨可增加博物馆参观时间。美食集中在舞阳坝和九立方商圈，可步行前往。交通以公交和出租车为主，包车去大峡谷约150-200元/天。住宿推荐好如家商务宾馆，位置便利且性价比高。",
+      "budget": {
+        "total_attractions": 200,
+        "total_hotels": 750,
+        "total_meals": 210,
+        "total_transportation": 400,
+        "total": 1560
+      }
+    }
+  }
+]

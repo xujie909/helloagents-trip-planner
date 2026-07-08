@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      VIDEO_GENERATOR_DIR: /app/video-generator
+      VIDEO_MEDIA_ROOT: /data
+      VIDEO_OUTPUT_SUBDIR: output
+      VIDEO_AUDIO_SUBDIR: audio
+      VIDEO_IMAGE_SUBDIR: images
+    volumes:
+      - video_media:/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  video-generator:
+    build:
+      context: ./video-generator
+      dockerfile: Dockerfile
+    environment:
+      VIDEO_MEDIA_ROOT: /data
+      VIDEO_OUTPUT_SUBDIR: output
+      VIDEO_AUDIO_SUBDIR: audio
+      VIDEO_IMAGE_SUBDIR: images
+    volumes:
+      - video_media:/data
+    restart: unless-stopped
+
+volumes:
+  video_media:
+
+# 使用前请先复制 backend/.env.example 为 backend/.env，并填写真实服务端配置。
+# frontend/.env 仅可填写会暴露到浏览器的 VITE_* 公共变量。

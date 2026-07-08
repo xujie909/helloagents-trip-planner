@@ -1,0 +1,1197 @@
+[
+  {
+    "id": "20260707182451_474c4a23",
+    "city": "上海",
+    "start_date": "2026-07-07",
+    "title": "2026-07-07 上海",
+    "created_at": "2026-07-07 18:24:51",
+    "updated_at": "",
+    "notes": "",
+    "images": [],
+    "files": [],
+    "tasks": [
+      {
+        "id": "1e366894",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "金茂大厦",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      }
+    ],
+    "prep_checklist": [
+      {
+        "id": "ac8de7ef",
+        "category": "证件",
+        "name": "身份证/护照",
+        "done": false
+      },
+      {
+        "id": "6d4c3897",
+        "category": "证件",
+        "name": "车票/机票信息",
+        "done": false
+      },
+      {
+        "id": "75ea8fbb",
+        "category": "衣物",
+        "name": "换洗衣物",
+        "done": false
+      },
+      {
+        "id": "8403610d",
+        "category": "电子设备",
+        "name": "手机充电器",
+        "done": false
+      },
+      {
+        "id": "5dd0b695",
+        "category": "电子设备",
+        "name": "充电宝",
+        "done": false
+      },
+      {
+        "id": "166bff8e",
+        "category": "洗护",
+        "name": "洗漱用品",
+        "done": false
+      }
+    ],
+    "data": {
+      "city": "上海",
+      "start_date": "2026-07-07",
+      "days": [
+        {
+          "day_index": 0,
+          "date": "2026-07-07",
+          "title": "上海轻旅行",
+          "attractions": [
+            {
+              "name": "金茂大厦",
+              "ticket_price": 0,
+              "suggested_duration": "半天",
+              "description": "金茂大厦\n\n 📍 基本概况  \n金茂大厦矗立于上海浦东新区陆家嘴金融贸易区的核心地段，具体地址为世纪大道88号，从地铁2号线陆家嘴站8号口出站步行约200米即可抵达。根据高德地图数据，该建筑属于“商务住宅;楼宇;商务写字楼”类别，是一座集高端商务办公、城市观光与商业配套于一体的超高层综合性地标。大厦总高约420.5米，地上88层（按实际使用楼层计），于1999年建成启用，是上海继东方明珠广播电视塔后第二座突破400米的摩天大楼，也是中国改革开放后浦东开发开放的标志性成果之一。作为陆家嘴天际线中最具辨识度的建筑之一，金茂大厦与相邻的上海中心大厦、环球金融中心共同构成“三件套”景观，成为游客打卡浦东的必到之处。\n\n 🏛️ 建筑/景观特色  \n金茂大厦的建筑设计融合了现代工程技术与中国传统美学。其外立面采用银灰色玻璃幕墙与金属框架，整体造型呈逐层收分的塔形结构，灵感来源于中国古塔的层叠韵律，既体现出向上攀升的动感，又暗合“节节高升”的寓意。大厦的观景层位于88层（观光厅），乘坐速度为9.1米/秒的极速电梯仅需45秒即可抵达，在此可360度俯瞰黄浦江两岸全景——向东远眺长江入海口，向西将外滩万国建筑群尽收眼底。建筑内部结构颇具巧思：中庭空间从53层至87层形成一个高达142米的“空中中庭”，环绕中庭的酒店客房与办公区通过玻璃幕墙引入自然光，营造出通透、大气的室内环境。夜晚时分，大厦的灯光系统会根据不同节日或主题变换色彩，与周边摩天楼的灯光秀交相辉映，成为黄浦江夜景中最璀璨的亮点之一。\n\n 📖 文化内涵  \n“金茂”二字取自“金”象征财富与繁荣，“茂”寓意生机勃勃、兴旺发达，整体名称寄托了上海作为国际金融中心蓬勃发展的愿景。作为中国第一座真正意义上的超高层综合建筑（集五星级酒店、甲级写字楼、观光厅、商业裙房于一体），金茂大厦见证了浦东从农田到现代化新城的跨越式发展。其建筑设计由中国与美国SOM建筑设计事务所合作完成，在西方摩天楼技术中融入中国塔文化元素，体现了全球化背景下东西方建筑理念的交融。此外，大厦在建造过程中创造了多项工程纪录（如当时中国最深的基础桩基、最快的高速电梯等），成为中国建筑工业技术迈向世界前沿的实物见证。对于普通游客而言，登上88层不仅能感受“一览众山小”的视野，更能直观体会到改革开放以来中国城市建设的伟大成就。\n\n 🎯 游玩亮点  \n1. 云端观光：88层观光厅是核心体验项目，门票参考价约120元（平日），可360度无死角俯瞰上海城市全貌。建议选择傍晚时段前往，既能欣赏日落时分金色云海下的陆家嘴，又能等待华灯初上的璀璨夜景。  \n2. 极速电梯：搭乘每秒近10米的高速电梯，体验失重感与视觉冲击的奇妙组合，电梯厅内还配有动态显示屏，实时展示上升高度与速度。  \n3. 空中走廊：部分时段开放“云中漫步”项目（需额外购票），在88层外侧透明玻璃栈道上行走，挑战胆量的同时拍摄极具视觉冲击力的照片。  \n4. 建筑打卡：在陆家嘴环形天桥、上海中心大厦底层广场或东方明珠塔下，可仰拍“三件套”同框的经典角度；而金茂大厦自身的“节节高”轮廓在蓝天白云下尤为上镜。  \n5. 商务之旅：虽然办公区不对外开放，但大厦底层设有银行、咖啡馆、简餐等配套，游客可以在此感受金融精英的日常氛围。若遇周末或节假日，有时会举办楼宇开放日或艺术展览，可留意官方公告。\n\n 🍜 周边推荐  \n- 餐饮：金茂大厦裙楼内的金茂君悦大酒店提供高端自助餐与下午茶（需预约）；步行5分钟至国金中心商场（IFC），这里有众多中高端餐厅如鼎泰丰、利苑、大董烤鸭等；陆家嘴地铁站附近的正大广场汇集了更多平价美食，如小杨生煎、东发道茶冰厅等。  \n- 购物：国金中心（LV、Gucci等奢侈品）、正大广场（ZARA、优衣库等快时尚）、上海中心大厦底层商铺（文创纪念品）。  \n- 其他景点：  \n  - 东方明珠塔（步行8分钟）：可登塔体验透明悬空廊；  \n  - 上海中心大厦（步行3分钟）：118层“上海之巅”观光厅视野更高；  \n  - 环球金融中心（步行5分钟）：94-100层观景台同样壮观；  \n  - 陆家嘴绿地（步行6分钟）：闹中取静的草坪公园，适合散步休憩。  \n- 交通：地铁2号线陆家嘴站8号口、14号线浦东南路站；公交81路、779路、939路等；自驾可停在金茂大厦地下停车场（收费较高，建议绿色出行）。\n\n 🌤️ 出行提示  \n- 天气：小雨，温度25°C。建议携带折叠雨伞，观景厅内备有雨伞套；小雨天气视野可能受云层影响，但反而能拍到云雾缭绕的“仙境”效果，别有一番风味。  \n- 最佳时间：推荐16:00-18:00入场，一次体验日景、日落与夜景；若遇大雾，观光厅会暂停开放，建议出发前致电确认。  \n- 装备：穿休闲鞋（需步行较多）；观景厅内光线充足，可带墨镜；手机/相机需充满电（夜景拍摄建议带三脚架）。  \n- 购票：建议通过美团、携程等平台提前预约，避免现场排队；部分联票（含东方明珠或上海中心）有折扣。  \n- 安检：需配合身份证核验与随身物品安检，打火机、管制刀具等不得带入。\n\n📌 信息来源：DeepSeek模型 + 高德地图",
+              "image": "https://images.unsplash.com/photo-1506158278516-d720e72406fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w5NzM3Njl8MHwxfHNlYXJjaHw1fHwlRTklODclOTElRTglOEMlODIlRTUlQTQlQTclRTUlOEUlQTYlMjB0cmF2ZWwlMjBDaGluYXxlbnwwfHx8fDE3ODMxOTEyMjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+              "travel_tips": [
+                "来自数据广场，可后续补充更详细安排"
+              ],
+              "location": {
+                "latitude": 31.235284,
+                "longitude": 121.505611,
+                "address": "上海"
+              }
+            }
+          ],
+          "meals": [],
+          "hotel": {},
+          "transportation": [],
+          "tips": [
+            "这是从数据广场快速创建的行程，可继续补充更多景点。"
+          ]
+        }
+      ],
+      "overall_suggestions": "先收藏感兴趣景点，再逐步补全完整行程。",
+      "budget": {
+        "total_attractions": 0,
+        "total_hotels": 0,
+        "total_meals": 0,
+        "total_transportation": 0,
+        "total": 0
+      }
+    },
+    "budget_summary": {
+      "total_planned": 0,
+      "total_actual": 0,
+      "difference": 0,
+      "is_over_budget": false,
+      "by_type": {
+        "attraction": {
+          "label": "景点",
+          "planned": 0,
+          "actual": 0,
+          "count": 1
+        },
+        "meal": {
+          "label": "餐饮",
+          "planned": 0,
+          "actual": 0,
+          "count": 0
+        },
+        "hotel": {
+          "label": "酒店",
+          "planned": 0,
+          "actual": 0,
+          "count": 0
+        },
+        "other": {
+          "label": "其他",
+          "planned": 0,
+          "actual": 0,
+          "count": 0
+        }
+      },
+      "legacy": {
+        "total_attractions": 0,
+        "total_hotels": 0,
+        "total_meals": 0,
+        "total_transportation": 0,
+        "total": 0
+      }
+    },
+    "checklist_summary": {
+      "total": 6,
+      "done": 0,
+      "progress": 0
+    }
+  },
+  {
+    "id": "20260707181643_83799acb",
+    "city": "咸宁",
+    "start_date": "2026-07-07",
+    "title": "2026-07-07 咸宁",
+    "created_at": "2026-07-07 18:16:43",
+    "updated_at": "",
+    "notes": "",
+    "images": [],
+    "files": [],
+    "tasks": [
+      {
+        "id": "610d9393",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "咸宁十六潭公园",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "3517cf86",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "刘家桥古民居",
+        "done": false,
+        "planned_cost": 30,
+        "actual_cost": 30
+      },
+      {
+        "id": "e9f8e053",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "咸宁温泉谷度假区",
+        "done": false,
+        "planned_cost": 128,
+        "actual_cost": 128
+      },
+      {
+        "id": "59b8902f",
+        "type": "meal",
+        "day": "第1天",
+        "name": "breakfast: 宾馆附近早餐店",
+        "done": false,
+        "planned_cost": 15,
+        "actual_cost": 15
+      },
+      {
+        "id": "2cedebdf",
+        "type": "meal",
+        "day": "第1天",
+        "name": "lunch: 刘家桥农家菜馆",
+        "done": false,
+        "planned_cost": 60,
+        "actual_cost": 60
+      },
+      {
+        "id": "3c6ae781",
+        "type": "meal",
+        "day": "第1天",
+        "name": "dinner: 温泉路土菜馆",
+        "done": false,
+        "planned_cost": 70,
+        "actual_cost": 70
+      },
+      {
+        "id": "1f125a3d",
+        "type": "hotel",
+        "day": "第1天",
+        "name": "咸宁锦航宾馆",
+        "done": false,
+        "planned_cost": 150,
+        "actual_cost": 150
+      },
+      {
+        "id": "4b5ee2ad",
+        "type": "attraction",
+        "day": "第2天",
+        "name": "隐水洞地质公园",
+        "done": false,
+        "planned_cost": 110,
+        "actual_cost": 110
+      },
+      {
+        "id": "04295da2",
+        "type": "attraction",
+        "day": "第2天",
+        "name": "赤壁古战场",
+        "done": false,
+        "planned_cost": 45,
+        "actual_cost": 45
+      },
+      {
+        "id": "37e29039",
+        "type": "meal",
+        "day": "第2天",
+        "name": "breakfast: 宾馆早餐简餐",
+        "done": false,
+        "planned_cost": 15,
+        "actual_cost": 15
+      },
+      {
+        "id": "df2a33c1",
+        "type": "meal",
+        "day": "第2天",
+        "name": "lunch: 隐水洞景区餐厅",
+        "done": false,
+        "planned_cost": 50,
+        "actual_cost": 50
+      },
+      {
+        "id": "2910078e",
+        "type": "meal",
+        "day": "第2天",
+        "name": "dinner: 赤壁市区老字号餐馆",
+        "done": false,
+        "planned_cost": 65,
+        "actual_cost": 65
+      },
+      {
+        "id": "a2edba39",
+        "type": "hotel",
+        "day": "第2天",
+        "name": "咸宁锦航宾馆",
+        "done": false,
+        "planned_cost": 150,
+        "actual_cost": 150
+      }
+    ],
+    "prep_checklist": [
+      {
+        "id": "8364e8bf",
+        "category": "证件",
+        "name": "身份证/护照",
+        "done": false
+      },
+      {
+        "id": "06437f1b",
+        "category": "证件",
+        "name": "车票/机票信息",
+        "done": false
+      },
+      {
+        "id": "41033dee",
+        "category": "衣物",
+        "name": "换洗衣物",
+        "done": false
+      },
+      {
+        "id": "1745b8cb",
+        "category": "电子设备",
+        "name": "手机充电器",
+        "done": false
+      },
+      {
+        "id": "b6d204a5",
+        "category": "电子设备",
+        "name": "充电宝",
+        "done": false
+      },
+      {
+        "id": "8d860e51",
+        "category": "洗护",
+        "name": "洗漱用品",
+        "done": false
+      }
+    ],
+    "data": {
+      "city": "咸宁",
+      "start_date": "2026-07-07",
+      "end_date": "2026-07-08",
+      "days": [
+        {
+          "date": "2026-07-07",
+          "day_index": 0,
+          "description": "第1天：温泉城区休闲游。上午参观咸宁十六潭公园（城市绿肺，雨天撑伞漫步），中午前往刘家桥古民居（明清古村落，有廊亭可避雨），下午体验咸宁温泉谷度假区（室内温泉，不受天气影响），晚上在温泉路附近品尝本地美食。",
+          "transportation": "公共交通（公交、出租车）",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "咸宁锦航宾馆",
+            "address": "温泉区桂花街136号",
+            "location": {
+              "longitude": 114.328,
+              "latitude": 29.843
+            },
+            "price_range": "100-200元",
+            "rating": "3.8",
+            "distance": "距离咸宁温泉谷约1.5公里",
+            "type": "经济型酒店",
+            "estimated_cost": 150
+          },
+          "attractions": [
+            {
+              "name": "咸宁十六潭公园",
+              "address": "咸宁大道",
+              "location": {
+                "longitude": 114.318,
+                "latitude": 29.828
+              },
+              "visit_duration": 90,
+              "description": "咸宁市区最大的城市公园，湖光山色，绿树成荫，非常适合雨中漫步。",
+              "category": "公园",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            },
+            {
+              "name": "刘家桥古民居",
+              "address": "咸安区桂花镇",
+              "location": {
+                "longitude": 114.278,
+                "latitude": 29.768
+              },
+              "visit_duration": 90,
+              "description": "保存完好的明清古民居群落，青砖黛瓦，廊桥相连，雨天可在廊下赏雨。",
+              "category": "历史古迹",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 30
+            },
+            {
+              "name": "咸宁温泉谷度假区",
+              "address": "温泉路5号",
+              "location": {
+                "longitude": 114.324,
+                "latitude": 29.84
+              },
+              "visit_duration": 150,
+              "description": "室内外温泉池结合，拥有多种药浴、鱼疗等特色泡池，雨天也能尽享泡汤乐趣。",
+              "category": "温泉",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 128
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "宾馆附近早餐店",
+              "address": null,
+              "location": null,
+              "description": "热干面、豆浆、油条，地道湖北早点",
+              "estimated_cost": 15
+            },
+            {
+              "type": "lunch",
+              "name": "刘家桥农家菜馆",
+              "address": null,
+              "location": null,
+              "description": "品尝咸宁特色农家菜，如贺胜桥鸡汤、桂花藕粉",
+              "estimated_cost": 60
+            },
+            {
+              "type": "dinner",
+              "name": "温泉路土菜馆",
+              "address": null,
+              "location": null,
+              "description": "推荐咸宁鱼丸、竹笋炒肉、清炒苋菜",
+              "estimated_cost": 70
+            }
+          ],
+          "title": "第1天",
+          "tips": []
+        },
+        {
+          "date": "2026-07-08",
+          "day_index": 1,
+          "description": "第2天：溶洞与古战场探秘。上午前往隐水洞地质公园（大型溶洞，洞内恒温不受天气影响），下午转赴赤壁古战场（有部分室内展馆和廊道，小雨影响不大），傍晚返回咸宁市区，享用晚餐。",
+          "transportation": "公共交通（城际公交、出租车）",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "咸宁锦航宾馆",
+            "address": "温泉区桂花街136号",
+            "location": {
+              "longitude": 114.328,
+              "latitude": 29.843
+            },
+            "price_range": "100-200元",
+            "rating": "3.8",
+            "distance": "距离咸宁温泉谷约1.5公里",
+            "type": "经济型酒店",
+            "estimated_cost": 150
+          },
+          "attractions": [
+            {
+              "name": "隐水洞地质公园",
+              "address": "大畈镇隐水村",
+              "location": {
+                "longitude": 114.515,
+                "latitude": 29.637
+              },
+              "visit_duration": 150,
+              "description": "国家级地质公园，溶洞长达3公里，洞内钟乳石千姿百态，可乘船、步行、小火车游览，冬暖夏凉，完全不受天气影响。",
+              "category": "自然风光",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 110
+            },
+            {
+              "name": "赤壁古战场",
+              "address": "赤壁市赤壁镇",
+              "location": {
+                "longitude": 113.887,
+                "latitude": 29.882
+              },
+              "visit_duration": 150,
+              "description": "三国赤壁之战发生地，有周瑜雕像、赤壁摩崖石刻、拜风台等景点，部分室内陈列馆可避雨。",
+              "category": "历史古迹",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 45
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "宾馆早餐简餐",
+              "address": null,
+              "location": null,
+              "description": "面包、牛奶、鸡蛋",
+              "estimated_cost": 15
+            },
+            {
+              "type": "lunch",
+              "name": "隐水洞景区餐厅",
+              "address": null,
+              "location": null,
+              "description": "体验通山土菜，如腊肉炒豆丝、糍粑鱼",
+              "estimated_cost": 50
+            },
+            {
+              "type": "dinner",
+              "name": "赤壁市区老字号餐馆",
+              "address": null,
+              "location": null,
+              "description": "推荐赤壁鱼糕、清蒸鮰鱼、藕带",
+              "estimated_cost": 65
+            }
+          ],
+          "title": "第2天",
+          "tips": []
+        }
+      ],
+      "weather_info": [
+        {
+          "date": "2026-07-07",
+          "day_weather": "小雨",
+          "night_weather": "多云",
+          "day_temp": 33,
+          "night_temp": 24,
+          "wind_direction": "南风",
+          "wind_power": "1-3级"
+        },
+        {
+          "date": "2026-07-08",
+          "day_weather": "小雨",
+          "night_weather": "多云",
+          "day_temp": 33,
+          "night_temp": 25,
+          "wind_direction": "西南风",
+          "wind_power": "1-3级"
+        }
+      ],
+      "overall_suggestions": "1. 两天均有小雨，务必携带雨伞/雨衣，洞内和温泉区需注意防滑。2. 气温较高且闷热，穿着透气轻便衣物，注意补水。3. 隐水洞和赤壁古战场距离市区较远，建议提前规划交通或包车，也可乘坐城际公交。4. 温泉项目建议提前预订门票，避开周末人流。5. 住宿推荐咸宁锦航宾馆，位于温泉区核心，方便用餐和出行。",
+      "budget": {
+        "total_attractions": 313,
+        "total_hotels": 300,
+        "total_meals": 275,
+        "total_transportation": 0,
+        "total": 888
+      }
+    },
+    "budget_summary": {
+      "total_planned": 888,
+      "total_actual": 888,
+      "difference": 0,
+      "is_over_budget": false,
+      "by_type": {
+        "attraction": {
+          "label": "景点",
+          "planned": 313,
+          "actual": 313,
+          "count": 5
+        },
+        "meal": {
+          "label": "餐饮",
+          "planned": 275,
+          "actual": 275,
+          "count": 6
+        },
+        "hotel": {
+          "label": "酒店",
+          "planned": 300,
+          "actual": 300,
+          "count": 2
+        },
+        "other": {
+          "label": "其他",
+          "planned": 0,
+          "actual": 0,
+          "count": 0
+        }
+      },
+      "legacy": {
+        "total_attractions": 313,
+        "total_hotels": 300,
+        "total_meals": 275,
+        "total_transportation": 0,
+        "total": 888
+      }
+    },
+    "checklist_summary": {
+      "total": 6,
+      "done": 0,
+      "progress": 0
+    }
+  },
+  {
+    "id": "20260707180126_acd3d49a",
+    "city": "北京",
+    "start_date": "2026-07-07",
+    "title": "2026-07-07 北京",
+    "created_at": "2026-07-07 18:01:26",
+    "updated_at": "2026-07-07 18:02:54",
+    "notes": "",
+    "images": [],
+    "files": [],
+    "tasks": [
+      {
+        "id": "281ff2bb",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "天安门广场",
+        "done": true,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "25693e95",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "中国国家博物馆",
+        "done": true,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "dcdabffc",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "故宫博物院",
+        "done": false,
+        "planned_cost": 60,
+        "actual_cost": 60
+      },
+      {
+        "id": "e2b2313c",
+        "type": "meal",
+        "day": "第1天",
+        "name": "breakfast: 护国寺小吃（牛街店）",
+        "done": false,
+        "planned_cost": 25,
+        "actual_cost": 25
+      },
+      {
+        "id": "eb046235",
+        "type": "meal",
+        "day": "第1天",
+        "name": "lunch: 东来顺饭庄（王府井店）",
+        "done": false,
+        "planned_cost": 80,
+        "actual_cost": 80
+      },
+      {
+        "id": "e9612149",
+        "type": "meal",
+        "day": "第1天",
+        "name": "dinner: 便宜坊烤鸭店（前门店）",
+        "done": false,
+        "planned_cost": 100,
+        "actual_cost": 100
+      },
+      {
+        "id": "5d01fb98",
+        "type": "hotel",
+        "day": "第1天",
+        "name": "汉庭酒店(北京牛街地铁站店)",
+        "done": false,
+        "planned_cost": 400,
+        "actual_cost": 400
+      },
+      {
+        "id": "f22637cc",
+        "type": "attraction",
+        "day": "第2天",
+        "name": "天坛公园",
+        "done": false,
+        "planned_cost": 15,
+        "actual_cost": 15
+      },
+      {
+        "id": "3dd5e78d",
+        "type": "attraction",
+        "day": "第2天",
+        "name": "北海公园",
+        "done": false,
+        "planned_cost": 10,
+        "actual_cost": 10
+      },
+      {
+        "id": "e4c4f824",
+        "type": "attraction",
+        "day": "第2天",
+        "name": "南锣鼓巷",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "e3ea0600",
+        "type": "meal",
+        "day": "第2天",
+        "name": "breakfast: 洪记小吃（牛街店）",
+        "done": false,
+        "planned_cost": 20,
+        "actual_cost": 20
+      },
+      {
+        "id": "4a67c191",
+        "type": "meal",
+        "day": "第2天",
+        "name": "lunch: 聚宝源铜锅涮肉（牛街总店）",
+        "done": false,
+        "planned_cost": 100,
+        "actual_cost": 100
+      },
+      {
+        "id": "a4bb0550",
+        "type": "meal",
+        "day": "第2天",
+        "name": "dinner: 姚记炒肝店（鼓楼店）",
+        "done": false,
+        "planned_cost": 40,
+        "actual_cost": 40
+      },
+      {
+        "id": "a465e7c9",
+        "type": "hotel",
+        "day": "第2天",
+        "name": "汉庭酒店(北京牛街地铁站店)",
+        "done": false,
+        "planned_cost": 400,
+        "actual_cost": 400
+      },
+      {
+        "id": "1d94f4a3",
+        "type": "attraction",
+        "day": "第3天",
+        "name": "景山公园",
+        "done": false,
+        "planned_cost": 2,
+        "actual_cost": 2
+      },
+      {
+        "id": "218b6739",
+        "type": "attraction",
+        "day": "第3天",
+        "name": "中国美术馆",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "d1c5da4c",
+        "type": "attraction",
+        "day": "第3天",
+        "name": "王府井步行街",
+        "done": false,
+        "planned_cost": 0,
+        "actual_cost": 0
+      },
+      {
+        "id": "774d29d9",
+        "type": "meal",
+        "day": "第3天",
+        "name": "breakfast: 麦当劳（牛街店）",
+        "done": false,
+        "planned_cost": 25,
+        "actual_cost": 25
+      },
+      {
+        "id": "f32e6a9a",
+        "type": "meal",
+        "day": "第3天",
+        "name": "lunch: 四季民福烤鸭（王府井店）",
+        "done": false,
+        "planned_cost": 120,
+        "actual_cost": 120
+      },
+      {
+        "id": "4c5a8574",
+        "type": "meal",
+        "day": "第3天",
+        "name": "dinner: 老北京炸酱面（王府井店）",
+        "done": false,
+        "planned_cost": 40,
+        "actual_cost": 40
+      },
+      {
+        "id": "f2073ab4",
+        "type": "hotel",
+        "day": "第3天",
+        "name": "汉庭酒店(北京牛街地铁站店)",
+        "done": false,
+        "planned_cost": 400,
+        "actual_cost": 400
+      }
+    ],
+    "prep_checklist": [
+      {
+        "id": "dad01c7b",
+        "category": "证件",
+        "name": "身份证/护照",
+        "done": false
+      },
+      {
+        "id": "60f68c52",
+        "category": "证件",
+        "name": "车票/机票信息",
+        "done": false
+      },
+      {
+        "id": "5d4243e7",
+        "category": "衣物",
+        "name": "换洗衣物",
+        "done": false
+      },
+      {
+        "id": "db31811d",
+        "category": "电子设备",
+        "name": "手机充电器",
+        "done": false
+      },
+      {
+        "id": "c8336e04",
+        "category": "电子设备",
+        "name": "充电宝",
+        "done": false
+      },
+      {
+        "id": "98aac9b7",
+        "category": "洗护",
+        "name": "洗漱用品",
+        "done": false
+      }
+    ],
+    "data": {
+      "city": "北京",
+      "start_date": "2026-07-07",
+      "end_date": "2026-07-09",
+      "days": [
+        {
+          "date": "2026-07-07",
+          "day_index": 0,
+          "description": "第1天：核心中轴线文化游。上午参观天安门广场、中国国家博物馆（室内为主，避雨），下午游览故宫博物院（午门进入，主要走中轴线，室内宫殿可避雨），傍晚在南池子大街或王府井附近用餐。",
+          "transportation": "公共交通（地铁1号线、公交）",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "汉庭酒店(北京牛街地铁站店)",
+            "address": "牛街14-16号",
+            "location": {
+              "longitude": 116.356726,
+              "latitude": 39.880047
+            },
+            "price_range": "300-500元",
+            "rating": "4.3",
+            "distance": "距离天安门广场约4公里",
+            "type": "经济型酒店",
+            "estimated_cost": 400
+          },
+          "attractions": [
+            {
+              "name": "天安门广场",
+              "address": "东长安街",
+              "location": {
+                "longitude": 116.397128,
+                "latitude": 39.916527
+              },
+              "visit_duration": 90,
+              "description": "世界最大城市广场，可眺望天安门城楼、人民英雄纪念碑、毛主席纪念堂等，适合游览和拍照。",
+              "category": "广场",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            },
+            {
+              "name": "中国国家博物馆",
+              "address": "东长安街16号天安门广场东侧",
+              "location": {
+                "longitude": 116.397847,
+                "latitude": 39.908738
+              },
+              "visit_duration": 120,
+              "description": "全国最大的综合性博物馆，藏品丰富，常设展览《古代中国》和《复兴之路》不容错过，室内环境舒适。",
+              "category": "博物馆",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            },
+            {
+              "name": "故宫博物院",
+              "address": "景山前街4号",
+              "location": {
+                "longitude": 116.391015,
+                "latitude": 39.916385
+              },
+              "visit_duration": 180,
+              "description": "明清两代皇宫，世界文化遗产，游览中轴线三大殿、后三宫、御花园等，室内外结合，雷阵雨时可在廊下避雨。",
+              "category": "历史古迹",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 60
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "护国寺小吃（牛街店）",
+              "address": null,
+              "location": null,
+              "description": "传统北京早点，推荐豆汁儿、焦圈、糖火烧、面茶",
+              "estimated_cost": 25
+            },
+            {
+              "type": "lunch",
+              "name": "东来顺饭庄（王府井店）",
+              "address": null,
+              "location": null,
+              "description": "老北京涮羊肉，一人小锅，量足实惠，人均约80元",
+              "estimated_cost": 80
+            },
+            {
+              "type": "dinner",
+              "name": "便宜坊烤鸭店（前门店）",
+              "address": null,
+              "location": null,
+              "description": "焖炉烤鸭典范，味道不输全聚德，价格更亲民，人均约100元",
+              "estimated_cost": 100
+            }
+          ],
+          "title": "第1天",
+          "tips": []
+        },
+        {
+          "date": "2026-07-08",
+          "day_index": 1,
+          "description": "第2天：天坛与南城文化游。上午游览天坛公园（祈年殿、回音壁等有顶棚可避雨），中午在牛街品尝清真美食，下午前往北海公园（白塔、漪澜堂等），傍晚逛南锣鼓巷特色胡同。",
+          "transportation": "公共交通（地铁7号线、8号线、公交）",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "汉庭酒店(北京牛街地铁站店)",
+            "address": "牛街14-16号",
+            "location": {
+              "longitude": 116.356726,
+              "latitude": 39.880047
+            },
+            "price_range": "300-500元",
+            "rating": "4.3",
+            "distance": "距离天坛公园约3公里，距离牛街美食街步行可达",
+            "type": "经济型酒店",
+            "estimated_cost": 400
+          },
+          "attractions": [
+            {
+              "name": "天坛公园",
+              "address": "天坛东里甲1号",
+              "location": {
+                "longitude": 116.407859,
+                "latitude": 39.882371
+              },
+              "visit_duration": 150,
+              "description": "明清皇帝祭天场所，祈年殿、圜丘坛、皇穹宇等建筑宏伟，古柏参天，雨天有回音壁等室内展区。",
+              "category": "历史古迹",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 15
+            },
+            {
+              "name": "北海公园",
+              "address": "文津街1号",
+              "location": {
+                "longitude": 116.386444,
+                "latitude": 39.926947
+              },
+              "visit_duration": 120,
+              "description": "中国现存最古老、保存最完整的皇家园林之一，白塔、琼岛春阴碑、九龙壁等景点，雨天可在长廊或室内茶室休息。",
+              "category": "公园",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 10
+            },
+            {
+              "name": "南锣鼓巷",
+              "address": "交道口街道南大街(南锣鼓巷地铁站E西北口旁)",
+              "location": {
+                "longitude": 116.404721,
+                "latitude": 39.936619
+              },
+              "visit_duration": 90,
+              "description": "北京最具代表性的胡同街区，遍布特色小店、小吃和文艺咖啡馆，可边逛边避雨。",
+              "category": "特色街区",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "洪记小吃（牛街店）",
+              "address": null,
+              "location": null,
+              "description": "牛街清真小吃，推荐牛肉包子、羊肉泡馍、豆腐脑",
+              "estimated_cost": 20
+            },
+            {
+              "type": "lunch",
+              "name": "聚宝源铜锅涮肉（牛街总店）",
+              "address": null,
+              "location": null,
+              "description": "京城著名清真涮肉，手切鲜羊肉必点，人均100元",
+              "estimated_cost": 100
+            },
+            {
+              "type": "dinner",
+              "name": "姚记炒肝店（鼓楼店）",
+              "address": null,
+              "location": null,
+              "description": "地道北京小吃，炒肝、包子、卤煮，人均40元",
+              "estimated_cost": 40
+            }
+          ],
+          "title": "第2天",
+          "tips": []
+        },
+        {
+          "date": "2026-07-09",
+          "day_index": 2,
+          "description": "第3天：景山俯瞰与艺术之旅。上午登景山公园俯瞰故宫全景，随后步行至中国美术馆参观。中午在王府井步行街用餐并购物，下午前往国家自然博物馆或自由活动，傍晚结束行程。",
+          "transportation": "公共交通（地铁8号线、6号线、公交）",
+          "accommodation": "经济型酒店",
+          "hotel": {
+            "name": "汉庭酒店(北京牛街地铁站店)",
+            "address": "牛街14-16号",
+            "location": {
+              "longitude": 116.356726,
+              "latitude": 39.880047
+            },
+            "price_range": "300-500元",
+            "rating": "4.3",
+            "distance": "距离景山公园约5公里",
+            "type": "经济型酒店",
+            "estimated_cost": 400
+          },
+          "attractions": [
+            {
+              "name": "景山公园",
+              "address": "景山西街44号",
+              "location": {
+                "longitude": 116.395648,
+                "latitude": 39.926131
+              },
+              "visit_duration": 90,
+              "description": "北京城中轴线制高点，万春亭可俯瞰故宫全景和南北中轴线，园内有崇祯皇帝自缢处等历史遗迹。",
+              "category": "公园",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 2
+            },
+            {
+              "name": "中国美术馆",
+              "address": "五四大街1号",
+              "location": {
+                "longitude": 116.408273,
+                "latitude": 39.925577
+              },
+              "visit_duration": 90,
+              "description": "中国最高美术殿堂，常年展出近现代美术作品和各类特展，室内环境优雅，适合雨天参观。",
+              "category": "博物馆",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            },
+            {
+              "name": "王府井步行街",
+              "address": "王府井大街256号",
+              "location": {
+                "longitude": 116.412513,
+                "latitude": 39.917052
+              },
+              "visit_duration": 120,
+              "description": "北京最著名的商业街，百货商场与老字号云集，可购物、品尝小吃、体验城市繁华。",
+              "category": "特色街区",
+              "rating": null,
+              "photos": [],
+              "poi_id": "",
+              "image_url": null,
+              "ticket_price": 0
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "麦当劳（牛街店）",
+              "address": null,
+              "location": null,
+              "description": "快捷早餐，方便省时",
+              "estimated_cost": 25
+            },
+            {
+              "type": "lunch",
+              "name": "四季民福烤鸭（王府井店）",
+              "address": null,
+              "location": null,
+              "description": "口碑极佳的烤鸭店，性价比高，人均120元",
+              "estimated_cost": 120
+            },
+            {
+              "type": "dinner",
+              "name": "老北京炸酱面（王府井店）",
+              "address": null,
+              "location": null,
+              "description": "正宗老北京炸酱面，配菜丰富，人均40元",
+              "estimated_cost": 40
+            }
+          ],
+          "title": "第3天",
+          "tips": []
+        }
+      ],
+      "weather_info": [
+        {
+          "date": "2026-07-07",
+          "day_weather": "雷阵雨",
+          "night_weather": "阴",
+          "day_temp": 31,
+          "night_temp": 22,
+          "wind_direction": "东风",
+          "wind_power": "1-3级"
+        },
+        {
+          "date": "2026-07-08",
+          "day_weather": "雷阵雨",
+          "night_weather": "雷阵雨",
+          "day_temp": 33,
+          "night_temp": 22,
+          "wind_direction": "西南风",
+          "wind_power": "1-3级"
+        },
+        {
+          "date": "2026-07-09",
+          "day_weather": "阴",
+          "night_weather": "雷阵雨",
+          "day_temp": 32,
+          "night_temp": 23,
+          "wind_direction": "东风",
+          "wind_power": "1-3级"
+        }
+      ],
+      "overall_suggestions": "1. 三天均有雷阵雨或阴天，务必携带雨伞/雨衣，注意防雷，避免在空旷高地停留。2. 气温较高且闷热，建议穿着透气衣物，随身带水，注意防暑。3. 故宫、国博等热门景点需提前网上预约购票。4. 公共交通首选地铁，避开高峰拥堵。5. 住宿选在牛街附近，紧邻地铁和清真美食街，方便去天坛和核心区。",
+      "budget": {
+        "total_attractions": 87,
+        "total_hotels": 1200,
+        "total_meals": 550,
+        "total_transportation": 0,
+        "total": 1837
+      }
+    },
+    "budget_summary": {
+      "total_planned": 1837,
+      "total_actual": 1837,
+      "difference": 0,
+      "is_over_budget": false,
+      "by_type": {
+        "attraction": {
+          "label": "景点",
+          "planned": 87,
+          "actual": 87,
+          "count": 9
+        },
+        "meal": {
+          "label": "餐饮",
+          "planned": 550,
+          "actual": 550,
+          "count": 9
+        },
+        "hotel": {
+          "label": "酒店",
+          "planned": 1200,
+          "actual": 1200,
+          "count": 3
+        },
+        "other": {
+          "label": "其他",
+          "planned": 0,
+          "actual": 0,
+          "count": 0
+        }
+      },
+      "legacy": {
+        "total_attractions": 87,
+        "total_hotels": 1200,
+        "total_meals": 550,
+        "total_transportation": 0,
+        "total": 1837
+      }
+    },
+    "checklist_summary": {
+      "total": 6,
+      "done": 0,
+      "progress": 0
+    }
+  }
+]

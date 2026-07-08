@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b2433"/>
+      <stop offset="100%" stop-color="#5c3a21"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <circle cx="320" cy="220" r="120" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="1620" cy="860" r="180" fill="rgba(255,215,0,0.08)"/>
+  <text x="960" y="470" text-anchor="middle" fill="#f7e7ce" font-size="72" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">知行旅行</text>
+  <text x="960" y="570" text-anchor="middle" fill="rgba(247,231,206,0.88)" font-size="42" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">外部图库素材暂不可用，当前使用占位图继续渲染</text>
+</svg>

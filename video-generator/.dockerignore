@@ -1,0 +1,8 @@
+node_modules/
+output/
+public/audio/
+public/images/
+*.log
+.remotion/
+.playwright/
+.cache/

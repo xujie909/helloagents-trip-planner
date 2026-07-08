@@ -1,0 +1,90 @@
+{
+  "admin": {
+    "username": "admin",
+    "password_hash": "1afac21b395652c83dd4d977b77f28e75d3f9c4b7b4aeee46b77c7b2dce22fcd",
+    "salt": "afeb9a1faea572e13f7ff174026445e8",
+    "created_at": "2026-06-16 20:27:04",
+    "login_count": 18,
+    "last_login": "2026-07-07 18:26:24",
+    "email": "admin@zhixing.com",
+    "name": "管理员"
+  },
+  "scott": {
+    "username": "scott",
+    "name": "测试改名",
+    "password_hash": "8d3f9d10147e7bbe28be814d45508a849c568e3373884f6a7c19531d9a1378a7",
+    "salt": "d8cad52169b4699f0317ab5a8d546e0c",
+    "created_at": "2026-06-17 21:00:15",
+    "login_count": 8,
+    "last_login": "2026-07-05 20:33:43"
+  },
+  "12": {
+    "username": "12",
+    "name": "魔理沙",
+    "password_hash": "36e8b0f1e7f1e86efbc5e12a98267043e2380fcdf32a5782f1b1d67f82feefba",
+    "salt": "761db10162031f3b90463c6a2ab22782",
+    "created_at": "2026-06-17 21:03:51",
+    "login_count": 14,
+    "last_login": "2026-06-28 15:58:52",
+    "token": "836a0cefbc4bfc79d540c13c76a31e052976b7e587961cd8b07e6cd6681b5858"
+  },
+  "aha": {
+    "username": "aha",
+    "name": "乘兴过客",
+    "password_hash": "1dd2277e5d5a95e39f59c860375dd3e6a79a8b20b979b27c460c763cbb4e1816",
+    "salt": "558df6c42ae0e66b91f895ac77b13c95",
+    "created_at": "2026-06-18 01:30:42",
+    "login_count": 6,
+    "last_login": "2026-06-18 11:48:48",
+    "token": "ce7a02805b7be407c5822be05c864b9af99faf986ed5e9296ac157d6ee3e0d4a"
+  },
+  "smoke_9092af55": {
+    "username": "smoke_9092af55",
+    "name": "随意野老",
+    "password_hash": "3af52430f84ddd7fb867b6ee91b096d1e6b448838053163d84cfd0811fd5adfc",
+    "salt": "624503b67f031382a03807dae69c564e",
+    "created_at": "2026-07-05 13:51:34",
+    "login_count": 1,
+    "last_login": "2026-07-05 13:51:35",
+    "token": "1a262cd84150a508769090bf381687f80cab314df365917965633dc95818a283"
+  },
+  "smoke_7bd431b1": {
+    "username": "smoke_7bd431b1",
+    "name": "随心墨客",
+    "password_hash": "07a347dc7f348120c1ea8424eacb42674c5df567f7dfbaafb2213facd59e020f",
+    "salt": "40a517b5ae06a34c74971870765232e9",
+    "created_at": "2026-07-05 14:10:22",
+    "login_count": 1,
+    "last_login": "2026-07-05 14:10:22",
+    "token": "57a1197414bf550d19ea171a4ac8138340c29d0049d399084cf1fc43bece0d42"
+  },
+  "smoke_c2585502": {
+    "username": "smoke_c2585502",
+    "name": "沐光居士",
+    "password_hash": "ac90a67f8320bab2a3a557b99a533bd4cefa4e8af7c9593e2f3198bac775188b",
+    "salt": "d96e98bcbd59210931d69c378db5c2d7",
+    "created_at": "2026-07-05 14:13:24",
+    "login_count": 1,
+    "last_login": "2026-07-05 14:13:24",
+    "token": "ed54536212d977a2179a84bac4eaee9156c99b684914eed5130f264b5032f77e"
+  },
+  "121": {
+    "username": "121",
+    "name": "客行山客",
+    "password_hash": "135fd4c762a206aeeaa51709392aa76503cbc8701bd99d7d9ae77917cb884e47",
+    "salt": "ca29532869989793b63122e88c2590fc",
+    "created_at": "2026-07-06 18:54:39",
+    "login_count": 3,
+    "last_login": "2026-07-07 17:14:58"
+  },
+  "122121": {
+    "username": "122121",
+    "name": "归雁旅人",
+    "password_hash": "05b036ac28263acd10338452a1d1a40358f790242d6077af65bbffd5697a9056",
+    "salt": "da62a2b5f359871f67b5063038d08489",
+    "created_at": "2026-07-07 17:56:31",
+    "login_count": 6,
+    "last_login": "2026-07-07 23:20:07",
+    "token": "93cf66177e3c5d27f55cd9af08521670aabff1c2c0c9b640dbf7c0a7caa28290"
+  }
+}

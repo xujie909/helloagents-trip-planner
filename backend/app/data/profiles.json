@@ -1,0 +1,124 @@
+{
+  "scott": {
+    "gender": "女",
+    "age": "24",
+    "motivation": "喜欢旅行",
+    "habits": "一个人、睡到自然醒",
+    "companion": "一个人",
+    "preference": "",
+    "filled": true,
+    "attraction_states": {
+      "杭州宋城|杭州": {
+        "name": "杭州宋城",
+        "city": "杭州",
+        "favorite": true,
+        "want_to_go": true,
+        "visited": false,
+        "checked_in": false,
+        "updated_at": "2026-07-05 14:19:24"
+      },
+      "金茂大厦|上海": {
+        "name": "金茂大厦",
+        "city": "上海",
+        "favorite": true,
+        "want_to_go": false,
+        "visited": false,
+        "checked_in": false,
+        "updated_at": "2026-07-05 16:05:23"
+      }
+    }
+  },
+  "12": {
+    "gender": "女",
+    "age": "33",
+    "motivation": "压力大",
+    "habits": "",
+    "companion": "",
+    "preference": "",
+    "filled": true
+  },
+  "testuser": {
+    "gender": "女",
+    "age": "26",
+    "motivation": "休闲",
+    "habits": "慢游",
+    "companion": "朋友",
+    "preference": "自然风景",
+    "filled": true
+  },
+  "plaza-regression": {
+    "gender": "女",
+    "age": "29",
+    "motivation": "放松",
+    "habits": "周末短途",
+    "companion": "朋友",
+    "preference": "自然风景",
+    "filled": true
+  },
+  "smoke_7bd431b1": {
+    "attraction_states": {
+      "西湖|杭州": {
+        "name": "西湖",
+        "city": "杭州",
+        "favorite": true,
+        "want_to_go": true,
+        "visited": true,
+        "checked_in": true,
+        "updated_at": "2026-07-05 14:10:22"
+      }
+    }
+  },
+  "smoke_c2585502": {
+    "attraction_states": {
+      "西湖|杭州": {
+        "name": "西湖",
+        "city": "杭州",
+        "favorite": true,
+        "want_to_go": true,
+        "visited": true,
+        "checked_in": true,
+        "updated_at": "2026-07-05 14:13:24"
+      }
+    }
+  },
+  "121": {
+    "attraction_states": {
+      "金茂大厦|上海": {
+        "name": "金茂大厦",
+        "city": "上海",
+        "favorite": true,
+        "want_to_go": true,
+        "visited": false,
+        "checked_in": false,
+        "updated_at": "2026-07-07 16:40:48"
+      }
+    },
+    "gender": "",
+    "age": "",
+    "motivation": "",
+    "habits": "",
+    "companion": "",
+    "preference": "",
+    "filled": true
+  },
+  "122121": {
+    "gender": "",
+    "age": "",
+    "motivation": "",
+    "habits": "",
+    "companion": "",
+    "preference": "",
+    "filled": true,
+    "attraction_states": {
+      "金茂大厦|上海": {
+        "name": "金茂大厦",
+        "city": "上海",
+        "favorite": true,
+        "want_to_go": true,
+        "visited": false,
+        "checked_in": false,
+        "updated_at": "2026-07-07 18:24:50"
+      }
+    }
+  }
+}

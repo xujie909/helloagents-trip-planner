@@ -1,0 +1,70 @@
+[
+  {
+    "id": "20260614013738_f842cf59",
+    "city": "测试",
+    "start_date": "2026-06-20",
+    "title": "2026-06-20 测试",
+    "created_at": "2026-06-14 01:37:38",
+    "updated_at": "",
+    "notes": "",
+    "images": [],
+    "tasks": [
+      {
+        "id": "37584287",
+        "type": "attraction",
+        "day": "第1天",
+        "name": "故宫",
+        "done": false,
+        "planned_cost": 60,
+        "actual_cost": 60
+      },
+      {
+        "id": "83be249e",
+        "type": "meal",
+        "day": "第1天",
+        "name": "breakfast: 早餐",
+        "done": false,
+        "planned_cost": 30,
+        "actual_cost": 30
+      },
+      {
+        "id": "8823b0d0",
+        "type": "hotel",
+        "day": "第1天",
+        "name": "北京饭店",
+        "done": false,
+        "planned_cost": 400,
+        "actual_cost": 400
+      }
+    ],
+    "data": {
+      "city": "测试",
+      "start_date": "2026-06-20",
+      "days": [
+        {
+          "day_index": 0,
+          "date": "2026-06-20",
+          "description": "测试",
+          "attractions": [
+            {
+              "name": "故宫",
+              "ticket_price": 60
+            }
+          ],
+          "meals": [
+            {
+              "type": "breakfast",
+              "name": "早餐",
+              "estimated_cost": 30
+            }
+          ],
+          "hotel": {
+            "name": "北京饭店",
+            "estimated_cost": 400
+          }
+        }
+      ],
+      "overall_suggestions": "测试"
+    }
+  }
+]

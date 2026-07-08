@@ -1,0 +1,18 @@
+# 全局 Docker 构建上下文忽略
+.git/
+.claude/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/.DS_Store
+**/Thumbs.db
+**/*.log
+**/logs/
+backend/venv/
+backend/.venv/
+frontend/node_modules/
+frontend/dist/
+video-generator/node_modules/
+video-generator/output/
+video-generator/public/audio/
+video-generator/public/images/
