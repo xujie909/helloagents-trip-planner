@@ -1,0 +1,18 @@
+[
+  {
+    "task_id": "vid_aae28a3f0137",
+    "scenic_name": "上海",
+    "status": "processing",
+    "progress": 80,
+    "message": "正在渲染视频（详细脚本，可能需要 3-8 分钟）...",
+    "created_at": "2026-07-09T03:00:13",
+    "updated_at": "2026-07-09T03:01:45",
+    "video_url": null,
+    "video_path": null,
+    "file_exists": false,
+    "trip_id": "20260709023633_7aedb480",
+    "trip_title": "2026-07-08 上海",
+    "trip_city": "上海",
+    "source_attraction": "上海"
+  }
+]

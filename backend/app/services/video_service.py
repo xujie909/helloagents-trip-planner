@@ -4,8 +4,10 @@ import os
 import json
 import shutil
 import subprocess
+import threading
 import uuid
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
@@ -30,6 +32,31 @@ PLACEHOLDER_IMAGE_NAME = "placeholder.svg"
 
 # Edge TTS 二进制完整路径（子进程需要绝对路径）
 EDGE_TTS_BIN = settings.get_edge_tts_bin()
+
+# 跨平台子进程编码：Windows 中文环境下默认 GBK，但工具输出通常是 UTF-8
+_SUBPROCESS_ENCODING = "utf-8"
+
+
+def _build_subprocess_env() -> dict:
+    """构建跨平台子进程环境变量，修复 Git Bash / MSYS 导致的 PATH 编码问题"""
+    env = dict(os.environ)
+    # 确保 Node.js 路径在 PATH 中（跨平台）
+    if os.name == "nt":
+        node_dirs = []
+        for prog in [os.environ.get("ProgramFiles", r"C:\Program Files"),
+                     os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")]:
+            nodejs_dir = os.path.join(prog, "nodejs")
+            if os.path.isdir(nodejs_dir):
+                node_dirs.append(nodejs_dir)
+        if node_dirs:
+            existing_path = env.get("PATH", "")
+            for nd in node_dirs:
+                if nd not in existing_path:
+                    existing_path = nd + os.pathsep + existing_path
+            env["PATH"] = existing_path
+    # 设置 UTF-8 编码，避免 GBK 解码错误
+    env["PYTHONIOENCODING"] = "utf-8"
+    return env
 
 # 表情 key 列表（与 EXPRESSION_MAP 一致）
 EXPRESSION_KEYS = [
@@ -262,6 +289,7 @@ class VideoService:
         self.render_image_root = RENDER_IMAGES_DIR
         self.remotion_concurrency = max(1, int(settings.remotion_concurrency or 4))
         self.puppeteer_executable_path = settings.get_puppeteer_executable_path()
+        self._executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="video-gen")
 
         if not self.video_generator_dir.exists():
             raise RuntimeError(f"视频生成目录不存在: {self.video_generator_dir}")
@@ -407,8 +435,8 @@ class VideoService:
         source_attraction: Optional[str] = None,
     ) -> str:
         """
-        生成景区介绍视频（同步执行）
-        返回 task_id
+        生成景区介绍视频（异步后台执行）
+        立即返回 task_id，前端轮询状态
         """
         self._cleanup_storage()
 
@@ -431,19 +459,23 @@ class VideoService:
         _tasks[task_id] = task
         _upsert_history(task)
 
-        try:
-            self._prepare_task_dirs(task_id)
-            self._do_generate(task_id, scenic_name, username)
-        except Exception as e:
-            task.status = "error"
-            task.message = f"生成失败: {str(e)}"
-            task.progress = 0
-            task.updated_at = _now_iso()
-            _upsert_history(task)
-            self._cleanup_render_staging(task_id)
-        finally:
-            self._cleanup_storage(current_task_id=task_id)
+        # 后台线程执行生成，避免阻塞 HTTP 响应
+        def _run():
+            try:
+                self._prepare_task_dirs(task_id)
+                self._do_generate(task_id, scenic_name, username)
+            except Exception as e:
+                task.status = "error"
+                task.message = f"生成失败: {str(e)}"
+                task.progress = 0
+                task.updated_at = _now_iso()
+                _upsert_history(task)
+                self._cleanup_render_staging(task_id)
+                print(f"[VideoService] Task {task_id} failed: {e}")
+            finally:
+                self._cleanup_storage(current_task_id=task_id)
 
+        self._executor.submit(_run)
         return task_id
 
     def _do_generate(self, task_id: str, scenic_name: str, username: str):
@@ -660,7 +692,9 @@ class VideoService:
                             "--write-media", str(filepath),
                         ],
                         capture_output=True,
+                        encoding=_SUBPROCESS_ENCODING,
                         timeout=60,
+                        env=_build_subprocess_env(),
                     )
                     if result.returncode == 0 and filepath.exists() and filepath.stat().st_size > 100:
                         audio_files.append(filename)
@@ -694,6 +728,8 @@ class VideoService:
                 [EDGE_TTS_BIN, "--voice", "zh-CN-XiaoxiaoNeural",
                  "--text", "。", "--write-media", filepath],
                 capture_output=True, timeout=20, check=True,
+                encoding=_SUBPROCESS_ENCODING,
+                env=_build_subprocess_env(),
             )
             return
         except Exception:
@@ -860,6 +896,30 @@ class VideoService:
             "totalFrames": total_frames,
         }
 
+    def _find_node(self) -> str:
+        """查找 node 可执行文件路径"""
+        import shutil as _shutil
+        if os.name == "nt":
+            for candidate in [
+                os.path.expandvars(r"%ProgramFiles%\nodejs\node.exe"),
+                os.path.expandvars(r"%ProgramFiles(x86)%\nodejs\node.exe"),
+            ]:
+                if Path(candidate).exists():
+                    return candidate
+        which = _shutil.which("node") or _shutil.which("node.exe")
+        return which or "node"
+
+    def _find_remotion_cli(self) -> str:
+        """查找 remotion CLI 入口 JS 文件"""
+        cli_js = self.video_generator_dir / "node_modules" / "@remotion" / "cli" / "remotion-cli.js"
+        if cli_js.exists():
+            return str(cli_js)
+        # fallback: dist/index.js
+        dist_js = self.video_generator_dir / "node_modules" / "@remotion" / "cli" / "dist" / "index.js"
+        if dist_js.exists():
+            return str(dist_js)
+        raise RuntimeError(f"找不到 Remotion CLI 入口文件，请确认 video-generator 已安装依赖")
+
     def _render_video(self, task_id: str, props: dict) -> str:
         """调用 Remotion 渲染视频"""
         output_filename = f"{task_id}.mp4"
@@ -868,9 +928,11 @@ class VideoService:
 
         self._sync_task_assets_to_render_public(task_id)
 
+        node_bin = self._find_node()
+        remotion_cli = self._find_remotion_cli()
         cmd = [
-            "npx",
-            "remotion",
+            node_bin,
+            remotion_cli,
             "render",
             "ScenicVideo",
             str(output_path),
@@ -882,9 +944,9 @@ class VideoService:
             "--concurrency", str(self.remotion_concurrency),
         ]
 
-        print(f"[VideoService] Rendering: {' '.join(cmd[:6])}...")
+        print(f"[VideoService] Rendering: node={node_bin} cli={remotion_cli} cwd={self.video_generator_dir}")
 
-        env = dict(os.environ)
+        env = _build_subprocess_env()
         if self.puppeteer_executable_path:
             env["PUPPETEER_EXECUTABLE_PATH"] = self.puppeteer_executable_path
 
@@ -893,7 +955,7 @@ class VideoService:
                 cmd,
                 cwd=str(self.video_generator_dir),
                 capture_output=True,
-                text=True,
+                encoding=_SUBPROCESS_ENCODING,
                 timeout=900,  # 15 minute timeout for longer videos
                 env=env,
             )
@@ -903,8 +965,8 @@ class VideoService:
                 stdout = (result.stdout or "").strip()
                 runtime_hint = ""
                 combined_output = f"{stderr}\n{stdout}".lower()
-                if "not found" in combined_output or "npx" in combined_output and "command" in combined_output:
-                    runtime_hint = "请先安装 Node.js / npm，并确认 npx 命令可用。"
+                if "not found" in combined_output or "winerror 2" in combined_output:
+                    runtime_hint = f"请先安装 Node.js 并确认 remotion 依赖已安装。node={node_bin} remotion={remotion_cli}"
                 elif "puppeteer" in combined_output or "chrome" in combined_output or "browser" in combined_output:
                     runtime_hint = "请检查 Puppeteer/Chrome 运行环境是否已安装并可访问。"
                 elif "module not found" in combined_output or "cannot find module" in combined_output:

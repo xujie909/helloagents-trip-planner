@@ -128,6 +128,12 @@ class Settings(BaseSettings):
         """获取 Edge TTS 可执行文件路径"""
         if self.edge_tts_bin:
             return self.edge_tts_bin
+        # Windows: 优先使用 Scripts 目录下的 .exe 文件（venv/bin/edge-tts 是 Unix shell 脚本，Windows 无法执行）
+        if os.name == "nt":
+            local_bin_win = ROOT_DIR / "backend" / "venv" / "Scripts" / "edge-tts.exe"
+            if local_bin_win.exists():
+                return str(local_bin_win)
+        # Unix/Linux/macOS
         local_bin = ROOT_DIR / "backend" / "venv" / "bin" / "edge-tts"
         if local_bin.exists():
             return str(local_bin)

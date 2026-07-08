@@ -28,9 +28,7 @@ def get_llm() -> HelloAgentsLLM:
             base_url=settings.get_primary_llm_base_url(),
         )
 
-        print(f"✅ LLM服务初始化成功")
-        print(f"   提供商: {_llm_instance.provider}")
-        print(f"   模型: {_llm_instance.model}")
+        print(f"[LLM] Service initialized: provider={_llm_instance.provider} model={_llm_instance.model}")
 
     return _llm_instance
 
@@ -55,8 +53,7 @@ def get_qwen_llm() -> HelloAgentsLLM:
             provider="qwen",
         )
 
-        print(f"✅ Qwen-VL多模态服务初始化成功")
-        print(f"   模型: {settings.qwen_model_id}")
+        print(f"[LLM] Qwen-VL service initialized: model={settings.qwen_model_id}")
 
     return _qwen_llm_instance
 
