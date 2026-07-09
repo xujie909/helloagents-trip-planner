@@ -679,9 +679,9 @@ class VideoService:
 
             success = False
             for voice in [
-                "zh-CN-YunyangNeural",   # 首选：专业播音
-                "zh-CN-XiaoxiaoNeural",  # 备选1：温暖自然
-                "zh-CN-YunxiNeural",     # 备选2：阳光青年
+                "zh-CN-XiaoyiNeural",      # 首选：活泼俏皮女声 (Lively)
+                "zh-CN-XiaoxiaoNeural",    # 备选1：温暖自然女声 (Warm)
+                "zh-CN-YunxiNeural",       # 备选2：阳光青年男声
             ]:
                 try:
                     result = subprocess.run(
@@ -725,7 +725,7 @@ class VideoService:
         # Use edge-tts with a short placeholder text
         try:
             subprocess.run(
-                [EDGE_TTS_BIN, "--voice", "zh-CN-XiaoxiaoNeural",
+                [EDGE_TTS_BIN, "--voice", "zh-CN-XiaoyiNeural",
                  "--text", "。", "--write-media", filepath],
                 capture_output=True, timeout=20, check=True,
                 encoding=_SUBPROCESS_ENCODING,

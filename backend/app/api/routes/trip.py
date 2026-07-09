@@ -327,6 +327,8 @@ def _fetch_amap_homepage_weather(data: dict) -> dict:
         return {"success": False, "message": str(e) or "首页天气查询失败"}
 
 
+def _build_guide_answer(data: dict, username: str) -> dict:
+    """旅行导览数字人问答"""
     question = _safe_clean_text(data.get("question", ""))
     if not question:
         return {"success": False, "message": "问题不能为空"}
