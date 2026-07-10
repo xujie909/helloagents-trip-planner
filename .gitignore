@@ -44,3 +44,17 @@ video-generator/audio/
 video-generator/images/
 video-generator/public/audio/
 video-generator/public/images/
+
+# Backend runtime data (user-generated content)
+backend/app/data/attraction_cache/
+backend/app/data/*_cache*.json
+backend/app/data/suggest_*.json
+backend/app/data/chats_*.json
+backend/app/data/conversations_*.json
+backend/app/data/trips_*.json
+backend/app/data/video_history_*.json
+backend/app/data/plaza_data.json
+backend/app/data/insights_cache.json
+
+# Frontend build
+frontend/dist/

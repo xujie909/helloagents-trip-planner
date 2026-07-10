@@ -188,7 +188,7 @@ const preloaded = ref(0); const totalAttractions = ref(0); const ttsReady = ref(
 const attractionData = ref<Map<string,{intro:string;utterance:SpeechSynthesisUtterance|null}>>(new Map())
 let gpsTimer: any = null; let syncTimer: any = null; let synth: SpeechSynthesis|null = null
 let lastAlertDist: Record<string,number> = {}
-const amapKey = 'acaa0ca1783103df303ac0e95c750c8e'
+const amapKey = import.meta.env.VITE_AMAP_WEB_JS_KEY || ''
 
 const allAttractions = computed(() => {
   if (!activeTrip.value?.data?.days) return []

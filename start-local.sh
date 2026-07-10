@@ -1,11 +1,27 @@
 #!/usr/bin/env bash
 # 知行旅行 · 本地开发启动脚本
 # 默认启动后端 + 前端；传入 --with-video 可额外启动 Remotion 开发服务
+#
+# 前置条件（首次使用前务必完成）：
+# 1. 复制并填写后端配置：cp backend/.env.example backend/.env
+#    - AMAP_API_KEY         高德地图 Web 服务 Key（必填）
+#    - LLM_API_KEY          主文本模型 API Key（必填）
+#    - LLM_BASE_URL         模型兼容地址（必填）
+#    - LLM_MODEL_ID         模型 ID（必填）
+# 2. 复制并填写前端配置：cp frontend/.env.example frontend/.env
+#    - VITE_AMAP_WEB_KEY    高德地图 Web Key（必填，用于静态地图）
+#    - VITE_AMAP_WEB_JS_KEY 高德地图 Web JS Key（必填，用于 GPS 定位/导览）
+# 3. 安装依赖：cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+# 4. 安装前端依赖：cd frontend && npm install
+# 5. （可选）安装视频依赖：cd video-generator && npm install
+#
+# Windows 用户：Git Bash 环境下部分命令可能不可用，推荐使用 start-local.py 跨平台启动脚本
 
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_ENV_FILE="$ROOT_DIR/backend/.env"
+FRONTEND_ENV_FILE="$ROOT_DIR/frontend/.env"
 BACKEND_VENV_PYTHON="$ROOT_DIR/backend/venv/bin/python"
 FRONTEND_NODE_MODULES="$ROOT_DIR/frontend/node_modules"
 VIDEO_NODE_MODULES="$ROOT_DIR/video-generator/node_modules"
@@ -85,6 +101,32 @@ require_env "AMAP_API_KEY"
 require_env "LLM_API_KEY"
 require_env "LLM_BASE_URL"
 require_env "LLM_MODEL_ID"
+
+# 检查前端 Amap Key（高德地图功能必需）
+if [[ ! -f "$FRONTEND_ENV_FILE" ]]; then
+  echo "❌ 缺少 frontend/.env 配置文件"
+  echo "   请先复制 frontend/.env.example 为 frontend/.env，再填写你自己的高德地图 Key。"
+  echo ""
+  echo "   cp frontend/.env.example frontend/.env"
+  echo ""
+  echo "   ✨ 高德地图 Key 申请地址：https://console.amap.com/dev/key/app"
+  echo "   需要创建两个 Key："
+  echo "   - 「Web服务」类型 → 填到 backend/.env 的 AMAP_API_KEY"
+  echo "   - 「Web端(JS API)」类型 → 填到 frontend/.env 的 VITE_AMAP_WEB_JS_KEY"
+  echo "   - （可选）「Web端」类型 → 填到 frontend/.env 的 VITE_AMAP_WEB_KEY（静态地图用）"
+  echo ""
+  echo "   注意：仓库不会提供可直接使用的 Key，必须由使用者自行配置。"
+  exit 1
+fi
+
+frontend_js_key=$(grep -E "^VITE_AMAP_WEB_JS_KEY=" "$FRONTEND_ENV_FILE" | tail -n 1 | cut -d'=' -f2- | tr -d '\r' | sed 's/^ *//;s/ *$//')
+if [[ -z "$frontend_js_key" ]] || [[ "$frontend_js_key" == "请填写可公开的高德"* ]]; then
+  echo "❌ frontend/.env 中的 VITE_AMAP_WEB_JS_KEY 仍是示例占位值"
+  echo "   高德地图 JS Key 用于旅行导览页的 GPS 定位和地图交互，必须填写。"
+  echo "   申请地址：https://console.amap.com/dev/key/app"
+  exit 1
+fi
+echo "✅ 前端高德地图 Key 已配置"
 
 if [[ ! -x "$BACKEND_VENV_PYTHON" ]]; then
   echo "❌ 未检测到 backend/venv/bin/python"

@@ -325,7 +325,7 @@ async function renderMap() {
   const center = pts[0]
   const markers = pts.map(p => `${p.lng},${p.lat}`).join('|')
   const names = pts.map(p => p.name).join('|')
-  const amapKey = 'acaa0ca1783103df303ac0e95c750c8e'
+  const amapKey = import.meta.env.VITE_AMAP_WEB_KEY || ''
   const imgUrl = `https://restapi.amap.com/v3/staticmap?key=${amapKey}&size=800*300&markers=mid,,A:${markers}&labels=${names}&zoom=12&center=${center.lng},${center.lat}&scale=2`
   mapContainer.value.innerHTML = `<div style="position:relative;border-radius:12px;overflow:hidden">
     <img src="${imgUrl}" style="width:100%;height:280px;object-fit:cover" />
