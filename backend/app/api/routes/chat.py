@@ -1,10 +1,12 @@
 """对话会话 API"""
 
 from fastapi import APIRouter, HTTPException, Header, UploadFile, File, Form
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, Response
 from pydantic import BaseModel
 import base64
 import json as json_mod
+import tempfile
+from pathlib import Path
 from ...config import settings
 from ...services.chat_store import (
     create_conversation, list_conversations, get_conversation,
@@ -631,3 +633,65 @@ async def vision_chat_stream(
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no", "Connection": "keep-alive"}
     )
+
+
+# ── Edge TTS 语音合成 ────────────────────────────────────────────────
+
+class TTSRequest(BaseModel):
+    text: str
+    voice: str = "zh-CN-XiaoyiNeural"  # 默认红美铃同款语音
+    rate: str = "+0%"
+    pitch: str = "+0Hz"
+
+
+@router.post("/tts")
+async def text_to_speech(req: TTSRequest):
+    """将文本转为 MP3 语音（Edge TTS 神经语音）
+
+    直接使用 edge-tts Python API（避免 subprocess 启动开销，节省约 2-3 秒）。
+    默认语音为红美铃同款 XiaoyiNeural，返回 audio/mpeg 可直接用于 <audio> 播放。
+    """
+    import edge_tts
+
+    text = req.text.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="文本不能为空")
+    if len(text) > 3000:
+        raise HTTPException(status_code=400, detail="文本过长，请控制在 3000 字以内")
+
+    try:
+        communicate = edge_tts.Communicate(
+            text=text,
+            voice=req.voice,
+            rate=req.rate,
+            pitch=req.pitch,
+        )
+
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
+            tmp_path = tmp.name
+
+        await communicate.save(tmp_path)
+
+        mp3_path = Path(tmp_path)
+        if not mp3_path.exists() or mp3_path.stat().st_size == 0:
+            raise RuntimeError("Edge TTS 未生成有效音频")
+
+        mp3_data = mp3_path.read_bytes()
+        mp3_path.unlink(missing_ok=True)
+
+        return Response(
+            content=mp3_data,
+            media_type="audio/mpeg",
+            headers={
+                "Content-Disposition": "inline",
+                "Cache-Control": "public, max-age=86400",  # 浏览器缓存 24h
+                "X-TTS-Voice": req.voice,
+            },
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        if 'tmp_path' in dir():
+            Path(tmp_path).unlink(missing_ok=True)
+        raise HTTPException(status_code=500, detail=f"TTS 服务异常: {str(e)}")

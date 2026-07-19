@@ -30,6 +30,8 @@ class PlazaService:
         self._http = requests.Session()
 
     def load_plaza(self) -> dict:
+        if not PLAZA_FILE.exists():
+            return {}
         with open(PLAZA_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
 

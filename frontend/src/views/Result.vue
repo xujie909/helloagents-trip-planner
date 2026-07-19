@@ -416,6 +416,17 @@ const replanPreview = ref<any | null>(null)
 const currentLocation = ref<{ lat: number; lng: number } | null>(null)
 let map: any = null
 
+function getAmapErrorText(error: unknown) {
+  const detail = [
+    error instanceof Error ? error.message : '',
+    typeof error === 'string' ? error : '',
+    typeof error === 'object' && error && 'info' in error ? String((error as any).info || '') : '',
+    typeof error === 'object' && error && 'message' in error ? String((error as any).message || '') : '',
+  ].find(Boolean) || '未知错误'
+
+  return `高德地图加载失败：${detail}。请检查 VITE_AMAP_WEB_JS_KEY 是否为 Web端(JS API) Key，并确认已放行当前域名。`
+}
+
 const totalAttractions = computed(() => {
   if (!tripPlan.value) return 0
   return tripPlan.value.days.reduce((sum, day) => sum + (day.attractions?.length || 0), 0)
@@ -999,8 +1010,11 @@ const exportAsPDF = async () => {
 // 初始化地图
 const initMap = async () => {
   try {
+    const mapKey = String(import.meta.env.VITE_AMAP_WEB_JS_KEY || '').trim()
+    if (!mapKey) throw new Error('未配置 VITE_AMAP_WEB_JS_KEY')
+
     const AMap = await AMapLoader.load({
-      key: import.meta.env.VITE_AMAP_WEB_JS_KEY,  // 高德地图Web端(JS API) Key
+      key: mapKey,  // 高德地图Web端(JS API) Key
       version: '2.0',
       plugins: ['AMap.Marker', 'AMap.Polyline', 'AMap.InfoWindow']
     })
@@ -1017,8 +1031,9 @@ const initMap = async () => {
 
     message.success('地图加载成功')
   } catch (error) {
+    const errText = getAmapErrorText(error)
     console.error('地图加载失败:', error)
-    message.error('地图加载失败')
+    message.error(errText, 6)
   }
 }
 

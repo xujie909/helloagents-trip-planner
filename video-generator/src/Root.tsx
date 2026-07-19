@@ -9,7 +9,7 @@ export const RemotionRoot: React.FC = () => {
         id="ScenicVideo"
         component={ScenicVideo}
         durationInFrames={DEFAULT_PROPS.totalFrames}
-        fps={30}
+        fps={24}
         width={1920}
         height={1080}
         schema={VideoPropsSchema}

@@ -1,13 +1,66 @@
 <template>
   <div class="plaza">
-    <div class="plaza-top">
-      <div class="plaza-head">
-        <h1>📊 旅行数据广场</h1>
-        <p>万千行者的足迹，汇聚于此</p>
+    <div class="plaza-hero">
+      <div class="plaza-hero-main">
+        <div class="hero-kicker">文旅数据洞察</div>
+        <div class="plaza-head">
+          <h1>旅行数据广场</h1>
+          <p>把游客足迹、城市热度与景区趋势汇聚成一张可探索的旅行版图。</p>
+        </div>
+        <div class="hero-search-card">
+          <div class="plaza-search">
+            <input v-model="searchText" class="search-inp" placeholder="搜索省份、城市或景点..." @input="doSearch" />
+            <span class="search-icon">🔍</span>
+          </div>
+          <div class="hero-search-tips">
+            <span>支持按省份 / 城市 / 景点快速定位</span>
+            <button class="hero-link-btn" type="button" @click="goToNationwide">查看全国热度</button>
+          </div>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <span class="metric-label">旅行记录</span>
+            <strong>{{ totalCount.toLocaleString() }}</strong>
+            <p>累计沉淀的真实出行足迹</p>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">覆盖省份</span>
+            <strong>{{ provinces.length }}</strong>
+            <p>形成全国文旅热度版图</p>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">榜首热度</span>
+            <strong>{{ hottestProvinceCount.toLocaleString() }}</strong>
+            <p>头部目的地的旅行记录峰值</p>
+          </div>
+        </div>
       </div>
-      <div class="plaza-search">
-        <input v-model="searchText" class="search-inp" placeholder="搜索省份、城市或景点..." @input="doSearch" />
-        <span class="search-icon">🔍</span>
+      <div class="plaza-hero-side">
+        <div class="hero-side-card hero-ai-card" v-if="recommendation">
+          <div class="hero-side-head">
+            <span class="hero-side-badge">AI 推荐</span>
+            <span class="hero-side-icon">🤖</span>
+          </div>
+          <p>{{ recommendation }}</p>
+        </div>
+        <div class="hero-side-card hero-ranking-card">
+          <div class="hero-side-head">
+            <strong>热门省份榜</strong>
+            <span>Top {{ topHeroProvinces.length }}</span>
+          </div>
+          <div class="hero-ranking-list">
+            <button
+              v-for="p in topHeroProvinces"
+              :key="p.name"
+              class="hero-ranking-row"
+              type="button"
+              @click="selProvince = p.name"
+            >
+              <span class="hero-ranking-name">{{ p.name }}</span>
+              <span class="hero-ranking-num">{{ p.count.toLocaleString() }}</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -23,11 +76,6 @@
         </div>
       </div>
     </Transition>
-
-    <div class="plaza-reco" v-if="recommendation && !searchText">
-      <span class="reco-icon">🤖</span>
-      <span class="reco-text">{{ recommendation }}</span>
-    </div>
 
     <div class="bread" v-if="!searchText">
       <span :class="{ on: !selProvince }" @click="goToNationwide">🌏 全国</span>
@@ -246,14 +294,10 @@
             <div class="intro-card-head">
               <h3>景区介绍</h3>
               <div class="intro-audio-actions">
-                <button class="intro-audio-btn" @click="toggleNarration" :disabled="!narrationAvailable">
-                  {{ narrationButtonText }}
+                <button class="intro-audio-btn" @click="openDigitalHuman" :disabled="detailLoading || !attractionDetail.intro">
+                  🎙️ 语音讲解
                 </button>
               </div>
-            </div>
-            <div v-if="currentNarrationSegment" class="intro-now-playing">
-              <span>正在讲解</span>
-              <p>{{ currentNarrationSegment }}</p>
             </div>
             <div class="intro-content">{{ cleanedIntro || '暂无景区介绍' }}</div>
           </div>
@@ -328,6 +372,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useEdgeTTS } from '@/composables/useEdgeTTS'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import ScenicDigitalHuman from '@/components/ScenicDigitalHuman.vue'
@@ -360,8 +405,6 @@ const showDigitalHuman = ref(false)
 const detailResponseSource = ref('')
 const activeAttraction = ref<{ name: string; city: string; province?: string }>({ name: '', city: '' })
 const attractionDetail = ref<any>({ image: '', intro: '', geo: null, weather: '', source: '' })
-const narrationPlaying = ref(false)
-const currentNarrationSegment = ref('')
 const stateLoading = ref(false)
 const stateActionLoading = ref(false)
 const tripActionLoading = ref(false)
@@ -384,9 +427,7 @@ const attractionState = ref({
   updated_at: '',
 })
 
-let narrationSynth: SpeechSynthesis | null = null
-let narrationSegments: string[] = []
-let narrationKey = ''
+const { prefetchSegments: edgePrefetch, warmup: warmupEdgeTTS } = useEdgeTTS()
 
 const totalCount = computed(() => provinces.value.reduce((s: number, p: any) => s + p.count, 0))
 const maxCount = computed(() => Math.max(...provinces.value.map((p: any) => p.count), 1))
@@ -408,6 +449,8 @@ const pieSegs = computed(() => {
   })
 })
 
+const topHeroProvinces = computed(() => sortedProvinces.value.slice(0, 4))
+const hottestProvinceCount = computed(() => sortedProvinces.value[0]?.count || 0)
 const provinceData = computed(() => provinces.value.find((p: any) => p.name === selProvince.value)?._detail)
 const cityAttractions = computed(() => {
   if (!selCity.value || !provinceData.value) return []
@@ -422,29 +465,18 @@ const cleanedIntro = computed(() =>
     .trim()
 )
 
-const narrationButtonText = computed(() => (narrationPlaying.value ? '停止讲解' : '播放讲解'))
-const narrationAvailable = computed(() => !detailLoading.value && !!cleanedIntro.value)
-
-function ensureNarrationSpeech() {
-  if (typeof window === 'undefined') return null
-  if (!narrationSynth && 'speechSynthesis' in window) {
-    narrationSynth = window.speechSynthesis
-  }
-  return narrationSynth
-}
-
 function splitNarrationSegments(content: string) {
   const raw = content.split(/(?<=[。！？\n])/g).filter((s) => s.trim())
   const segs: string[] = []
   for (const s of raw) {
-    if (s.length <= 42) {
+    if (s.length <= 40) {
       segs.push(s.trim())
       continue
     }
     const sub = s.split(/[,，]/g).filter((x) => x.trim())
     let buf = ''
     for (const ss of sub) {
-      if (buf.length + ss.length > 42 && buf) {
+      if (buf.length + ss.length > 40 && buf) {
         segs.push(buf.trim())
         buf = ss
       } else {
@@ -456,67 +488,8 @@ function splitNarrationSegments(content: string) {
   return segs.filter(Boolean)
 }
 
-function stopNarration() {
-  const synth = ensureNarrationSpeech()
-  if (synth) synth.cancel()
-  narrationPlaying.value = false
-  currentNarrationSegment.value = ''
-  narrationSegments = []
-}
-
-function playNarrationAt(index: number) {
-  if (index >= narrationSegments.length) {
-    narrationPlaying.value = false
-    currentNarrationSegment.value = ''
-    narrationSegments = []
-    return
-  }
-
-  const seg = narrationSegments[index]
-  currentNarrationSegment.value = seg
-  narrationPlaying.value = true
-
-  const synth = ensureNarrationSpeech()
-  if (!synth) {
-    playNarrationAt(index + 1)
-    return
-  }
-
-  synth.cancel()
-  const utterance = new SpeechSynthesisUtterance(seg)
-  utterance.lang = 'zh-CN'
-  utterance.rate = 1
-  utterance.pitch = 1.02
-  utterance.onend = () => playNarrationAt(index + 1)
-  utterance.onerror = () => stopNarration()
-  synth.speak(utterance)
-}
-
-function playNarration() {
-  const intro = cleanedIntro.value
-  if (!intro) return
-
-  stopNarration()
-  narrationKey = `${attractionDetail.value?.name || activeAttraction.value.name}|${activeAttraction.value.city || selCity.value || ''}|${intro}`
-  narrationSegments = splitNarrationSegments(intro)
-  if (!narrationSegments.length) return
-  playNarrationAt(0)
-}
-
-function toggleNarration() {
-  if (narrationPlaying.value) {
-    stopNarration()
-    return
-  }
-  playNarration()
-}
-
 function openDigitalHuman() {
-  stopNarration()
-  showDigitalHuman.value = false
-  requestAnimationFrame(() => {
-    showDigitalHuman.value = true
-  })
+  showDigitalHuman.value = true
 }
 
 function buildCurrentAttractionPayload() {
@@ -752,20 +725,20 @@ async function jumpTo(r: any) {
 }
 
 function goToNationwide() {
-  stopNarration()
+  showDigitalHuman.value = false
   selProvince.value = ''
   selCity.value = ''
   activeAttraction.value = { name: '', city: '' }
 }
 
 function goToProvince() {
-  stopNarration()
+  showDigitalHuman.value = false
   selCity.value = ''
   activeAttraction.value = { name: '', city: '', province: selProvince.value }
 }
 
 function goToCity() {
-  stopNarration()
+  showDigitalHuman.value = false
   activeAttraction.value = { name: '', city: selCity.value, province: selProvince.value }
 }
 
@@ -777,7 +750,7 @@ async function loadInsights() {
 }
 
 async function openAttractionDetail(name: string, city = '') {
-  stopNarration()
+  showDigitalHuman.value = false
   activeAttraction.value = { name, city, province: selProvince.value }
   attractionDetail.value = { name, image: '', intro: '', geo: null, weather: '', source: '' }
   detailResponseSource.value = ''
@@ -788,6 +761,12 @@ async function openAttractionDetail(name: string, city = '') {
     if (res?.success) {
       attractionDetail.value = { ...res.data }
       detailResponseSource.value = res.source || ''
+      // 后台预加载讲解 TTS，用户点「播放」时零延迟
+      const clean = String(res.data.intro || '').replace(/[*#[\]()`>_]/g,'').replace(/###.*\n/g,'').replace(/##.*\n/g,'').trim()
+      if (clean) {
+        const segs = splitNarrationSegments(clean)
+        if (segs.length) edgePrefetch(segs)
+      }
     } else {
       attractionDetail.value = {
         name,
@@ -812,38 +791,57 @@ async function openAttractionDetail(name: string, city = '') {
   }
 }
 
-watch(
-  () => `${attractionDetail.value?.name || activeAttraction.value.name}|${activeAttraction.value.city || selCity.value || ''}|${cleanedIntro.value}`,
-  (key) => {
-    if (!key) return
-    if (key !== narrationKey) stopNarration()
-  }
-)
-
 onMounted(() => {
   quickCreateDate.value = new Date().toISOString().slice(0, 10)
   loadPlaza()
   loadInsights()
   loadTripOptions()
+  warmupEdgeTTS() // 后台预热 Edge TTS WebSocket 连接
 })
 
 onBeforeUnmount(() => {
-  stopNarration()
+  showDigitalHuman.value = false
 })
 </script>
 
 <style scoped>
-.plaza { padding: 28px 36px; max-width: 960px; margin: 0 auto; animation: viewIn 0.35s ease-out both }
+.plaza { padding: 28px 36px; max-width: 1120px; margin: 0 auto; animation: viewIn 0.35s ease-out both }
 @keyframes viewIn { from { opacity: 0; transform: scale(.98) translateY(6px) } to { opacity: 1; transform: scale(1) translateY(0) } }
 
-.plaza-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 16px; flex-wrap: wrap }
-.plaza-head h1 { font-size: 26px; font-weight: 800; color: #5c3a21; margin: 0; font-family: 'STKaiti', '楷体', 'KaiTi', serif }
-.plaza-head p { font-size: 14px; color: #b8a088; margin: 4px 0 0 }
-
+.plaza-hero { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.9fr); gap: 18px; margin-bottom: 18px }
+.plaza-hero-main,
+.plaza-hero-side { min-width: 0 }
+.plaza-hero-main { position: relative; padding: 28px; border-radius: 26px; background: linear-gradient(135deg, #fff7f0 0%, #fffdfb 50%, #f8eee4 100%); border: 1px solid #eadccf; box-shadow: 0 18px 42px rgba(126, 79, 46, 0.08); overflow: hidden }
+.plaza-hero-main::after { content: ''; position: absolute; inset: auto -60px -80px auto; width: 220px; height: 220px; background: radial-gradient(circle, rgba(196,59,59,0.18), rgba(196,59,59,0)); pointer-events: none }
+.hero-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(196,59,59,0.08); color: #c43b3b; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 14px }
+.plaza-head { position: relative; z-index: 1 }
+.plaza-head h1 { font-size: 36px; font-weight: 800; color: #5c3a21; margin: 0; font-family: 'STKaiti', '楷体', 'KaiTi', serif }
+.plaza-head p { max-width: 560px; font-size: 15px; color: #8f6e55; margin: 10px 0 0; line-height: 1.8 }
+.hero-search-card { position: relative; z-index: 1; margin-top: 22px; padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.82); border: 1px solid rgba(234,220,207,0.9); backdrop-filter: blur(8px) }
 .plaza-search { position: relative; min-width: 240px }
-.search-inp { width: 100%; padding: 10px 38px 10px 16px; border: 2px solid #eadccf; border-radius: 22px; font-size: 14px; color: #5c3a21; outline: none; background: #fff; transition: border-color .2s }
-.search-inp:focus { border-color: #c43b3b }
+.search-inp { width: 100%; padding: 13px 42px 13px 16px; border: 2px solid #eadccf; border-radius: 18px; font-size: 14px; color: #5c3a21; outline: none; background: #fff; transition: border-color .2s, box-shadow .2s }
+.search-inp:focus { border-color: #c43b3b; box-shadow: 0 0 0 4px rgba(196,59,59,.08) }
 .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none }
+.hero-search-tips { margin-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: #9b7a61; font-size: 12px }
+.hero-link-btn { border: none; background: transparent; color: #c43b3b; font-size: 12px; font-weight: 600; cursor: pointer; padding: 0 }
+.hero-metrics { position: relative; z-index: 1; margin-top: 18px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px }
+.metric-card { padding: 16px 18px; border-radius: 18px; background: rgba(255,255,255,0.86); border: 1px solid rgba(234,220,207,0.92) }
+.metric-label { display: inline-block; font-size: 12px; color: #b08d74; margin-bottom: 10px }
+.metric-card strong { display: block; font-size: 28px; line-height: 1; color: #5c3a21; font-weight: 800 }
+.metric-card p { margin: 8px 0 0; font-size: 12px; line-height: 1.6; color: #9a7b61 }
+.plaza-hero-side { display: flex; flex-direction: column; gap: 14px }
+.hero-side-card { padding: 18px 18px 16px; border-radius: 22px; border: 1px solid #eadccf; background: #fff; box-shadow: 0 12px 28px rgba(126, 79, 46, 0.06) }
+.hero-ai-card { background: linear-gradient(135deg, #fff6ef 0%, #fff 100%) }
+.hero-side-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: #5c3a21 }
+.hero-side-badge { display: inline-flex; align-items: center; padding: 5px 10px; border-radius: 999px; background: #fdf0e8; color: #c43b3b; font-size: 12px; font-weight: 700 }
+.hero-side-icon { font-size: 20px }
+.hero-side-card p { margin: 0; color: #6b5344; line-height: 1.75; font-size: 14px }
+.hero-ranking-card { background: linear-gradient(180deg, #fffaf6 0%, #fff 100%) }
+.hero-ranking-list { display: flex; flex-direction: column; gap: 10px }
+.hero-ranking-row { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid #f0e3d6; border-radius: 16px; background: #fffaf6; color: #5c3a21; cursor: pointer; transition: all .2s }
+.hero-ranking-row:hover { border-color: #d8b39f; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(196,59,59,.07) }
+.hero-ranking-name { font-weight: 600 }
+.hero-ranking-num { color: #b08d74; font-size: 12px }
 .search-results { background: #fff; border: 1px solid #eadccf; border-radius: 14px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.06) }
 .search-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; transition: background .15s; border-bottom: 1px solid #f5f0eb }
 .search-item:hover { background: #fdf8f3 }
@@ -981,16 +979,21 @@ onBeforeUnmount(() => {
 .intro-audio-actions { display: flex; justify-content: flex-end }
 .intro-audio-btn { border: none; border-radius: 999px; padding: 8px 14px; background: #f8eee4; color: #8b5e3c; cursor: pointer; white-space: nowrap }
 .intro-audio-btn:disabled { opacity: .5; cursor: not-allowed }
-.intro-now-playing { margin-bottom: 12px; padding: 12px 14px; border-radius: 14px; background: linear-gradient(135deg,#fdf5ee,#fff); border: 1px solid #f0dcc8 }
-.intro-now-playing span { display: inline-block; font-size: 12px; color: #c43b3b; margin-bottom: 6px }
-.intro-now-playing p { margin: 0; color: #6b5344; line-height: 1.8; font-size: 14px }
 .intro-content { white-space: pre-wrap; color: #5f4839; line-height: 1.95; font-size: 15px }
+
+@media (max-width: 980px) {
+  .plaza-hero { grid-template-columns: 1fr }
+  .hero-metrics { grid-template-columns: 1fr }
+}
 
 @media (max-width: 767px) {
   .plaza { padding: 14px }
   .view { flex-direction: column }
-  .plaza-top { flex-direction: column }
+  .plaza-hero-main { padding: 20px }
+  .plaza-head h1 { font-size: 28px }
+  .hero-search-card { padding: 14px }
   .plaza-search { width: 100% }
+  .hero-search-tips { align-items: flex-start }
   .ct-bar,.ar-bar { width: 60px }
   .insight-card { padding: 16px; gap: 14px }
   .ic-icon-wrap { width: 44px; height: 44px; font-size: 22px; border-radius: 10px }

@@ -49,6 +49,7 @@
 <script setup lang="ts">
 import { ref, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { getAuthUsername, getDisplayName, isLoggedIn, getMe, hydrateAuthUser, getAuthHeaders } from '@/services/api'
+import { useEdgeTTS } from '@/composables/useEdgeTTS'
 
 const props = defineProps<{ currentPage?: string }>()
 
@@ -123,10 +124,11 @@ function handleResize() {
 onMounted(() => {
   resetFloatPosition()
   window.addEventListener('resize', handleResize)
+  warmupEdgeTTS() // 后台预热 TTS 连接，消除首次播放冷启动延迟
 })
 onBeforeUnmount(() => {
   closeStream()
-  if (synth) synth.cancel()
+  stopEdgeTTS()
   if (recognition && listening.value) recognition.stop()
   window.removeEventListener('resize', handleResize)
 })
@@ -135,7 +137,8 @@ const chatHistory = ref<{role:string;content:string}[]>([])
 const currentSegment = ref('')
 const currentImage = ref('/digital-human/自信.PNG')
 const historyEl = ref<HTMLElement>()
-let recognition: any = null; let synth: SpeechSynthesis|null = null; let convId = ''
+let recognition: any = null; let convId = ''
+const { speakSegments: edgeSpeakSegments, stop: stopEdgeTTS, warmup: warmupEdgeTTS } = useEdgeTTS()
 let currentEventSource: EventSource | null = null
 let currentStreamController: AbortController | null = null
 let fallbackConvId = ''
@@ -355,39 +358,29 @@ function playSegment(idx:number){
   const seg=pendingSegments[idx]
   currentSegment.value=seg; setEmotion(seg); scrollHistory()
 
-  if(!synth){
-    if(idx+1 < pendingSegments.length) playSegment(idx+1)
-    else {
-      if (pendingReplyFull.trim()) {
-        chatHistory.value.push({ role:'bot', content: pendingReplyFull.trim() })
-      }
-      currentSegment.value=''
-      pendingSegments=[]
-      pendingReplyFull=''
-      setStatus('这次回答完啦，还可以继续问我～')
+  stopEdgeTTS()
+  // Edge TTS 连续播放剩余分段
+  const remaining = pendingSegments.slice(idx)
+  edgeSpeakSegments(remaining, undefined, (segIdx2) => {
+    const actualIdx = idx + segIdx2
+    if (actualIdx < pendingSegments.length) {
+      currentSegment.value = pendingSegments[actualIdx]
+      setEmotion(pendingSegments[actualIdx])
+      scrollHistory()
     }
-    return
-  }
-
-  synth.cancel()
-  const u=new SpeechSynthesisUtterance(seg); u.lang='zh-CN'; u.rate=1.0; u.pitch=1.2
-  u.onend=()=>{
-    if(idx+1 < pendingSegments.length) playSegment(idx+1)
-    else {
-      if (pendingReplyFull.trim()) {
-        chatHistory.value.push({ role:'bot', content: pendingReplyFull.trim() })
-      }
-      currentSegment.value=''
-      pendingSegments=[]
-      pendingReplyFull=''
-      setStatus('这次回答完啦，还可以继续问我～')
+  }).finally(() => {
+    if (pendingReplyFull.trim()) {
+      chatHistory.value.push({ role:'bot', content: pendingReplyFull.trim() })
     }
-  }
-  synth.speak(u)
+    currentSegment.value=''
+    pendingSegments=[]
+    pendingReplyFull=''
+    setStatus('这次回答完啦，还可以继续问我～')
+  })
 }
 function nextSegment(){
   if(!pendingSegments.length) return
-  if(synth) synth.cancel()
+  stopEdgeTTS()
   if(segIdx+1 < pendingSegments.length) playSegment(segIdx+1)
   else {
     if (pendingReplyFull.trim()) {
@@ -434,7 +427,7 @@ function close(){
   pendingReplyFull=''
   setStatus('')
   closeStream()
-  if(synth) synth.cancel()
+  stopEdgeTTS()
   if(recognition && listening.value){
     recognition.stop()
   }
@@ -447,7 +440,6 @@ function initSpeech(){
   if(SR&&!recognition){ recognition=new SR(); recognition.lang='zh-CN'; recognition.interimResults=true
     recognition.onresult=(e:any)=>{text.value=e.results[0][0].transcript.trim();if(e.results[0].isFinal){listening.value=false;send()}}
     recognition.onerror=()=>{listening.value=false};recognition.onend=()=>{listening.value=false} }
-  if(w.speechSynthesis&&!synth) synth=w.speechSynthesis
 }
 function toggleMic(){ initSpeech(); if(!recognition)return; listening.value?recognition.stop():(()=>{try{recognition.start();listening.value=true}catch{listening.value=false}})() }
 

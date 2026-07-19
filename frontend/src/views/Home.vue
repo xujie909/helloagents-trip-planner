@@ -99,6 +99,7 @@
 <script setup lang="ts">
 import { ref, computed, nextTick, onMounted } from 'vue'
 import { isLoggedIn } from '@/services/api'
+import { useEdgeTTS } from '@/composables/useEdgeTTS'
 
 const sidebarOpen = ref(false)
 const bodyEl = ref<HTMLElement>(); const inputText = ref(''); const loading = ref(false)
@@ -109,7 +110,8 @@ const userAvatarEmoji = ref(localStorage.getItem('user_avatar')||'🎒')
 const messages = ref<any[]>([])
 const geoPoints = ref<any[]>([]); const showMap = ref(false); const mapContainer = ref<HTMLElement>()
 const imageInput = ref<HTMLInputElement>(); const uploadedImage = ref(''); const uploadingImage = ref(false)
-let recognition: any = null; let synth: SpeechSynthesis | null = null
+let recognition: any = null
+const { speak: edgeSpeak, stop: edgeStop } = useEdgeTTS()
 
 const username = computed(() => localStorage.getItem('username')||'')
 const currentTitle = computed(() => {
@@ -120,17 +122,15 @@ const currentTitle = computed(() => {
 function scrollDown() { nextTick(() => { const e=bodyEl.value; if(e) e.scrollTop=e.scrollHeight }) }
 
 // ---- 语音 ----
-function initSpeech() {
+function ensureMic() {
   const w=window as any; const SR=w.SpeechRecognition||w.webkitSpeechRecognition
   if(SR&&!recognition){ recognition=new SR(); recognition.lang='zh-CN'; recognition.interimResults=true
     recognition.onresult=(e:any)=>{ inputText.value=e.results[0][0].transcript.trim(); if(e.results[0].isFinal){ isListening.value=false; if(inputText.value)send() } }
-    recognition.onerror=()=>{isListening.value=false}; recognition.onend=()=>{isListening.value=false} }
-  if(w.speechSynthesis&&!synth)synth=w.speechSynthesis
+    recognition.onerror=()=>{isListening.value=false};recognition.onend=()=>{isListening.value=false} }
 }
-function toggleVoice(){ voiceEnabled.value=!voiceEnabled.value; if(voiceEnabled.value)initSpeech(); else stopSpeak() }
-function toggleMic(){ if(!recognition)return; isListening.value?recognition.stop():(()=>{try{recognition.start();isListening.value=true}catch{isListening.value=false}})() }
-function speak(t:string){ if(!voiceEnabled.value||!synth)return; stopSpeak(); const c=t.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}*#`\[\]()]/gu,'').trim(); if(!c)return; const u=new SpeechSynthesisUtterance(c); u.lang=/[一-鿿]/.test(c)?'zh-CN':'en-US'; u.rate=1.0;u.pitch=1.1; synth!.speak(u) }
-function stopSpeak(){ if(synth)synth.cancel() }
+function toggleVoice(){ voiceEnabled.value=!voiceEnabled.value; if(voiceEnabled.value) ensureMic(); else edgeStop() }
+function toggleMic(){ ensureMic(); if(!recognition)return; isListening.value?recognition.stop():(()=>{try{recognition.start();isListening.value=true}catch{isListening.value=false}})() }
+function speak(t:string){ if(!voiceEnabled.value)return; edgeStop(); const c=t.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}*#`\[\]()]/gu,'').trim(); if(!c)return; edgeSpeak(c) }
 
 // ---- API helpers ----
 const H = ():Record<string,string> => ({'Content-Type':'application/json','X-Username':username.value})

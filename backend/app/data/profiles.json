@@ -1,1 +1,35 @@
-{}
+{
+  "121121": {
+    "attraction_states": {
+      "故宫|北京": {
+        "name": "故宫",
+        "city": "北京",
+        "favorite": true,
+        "want_to_go": true,
+        "visited": false,
+        "checked_in": false,
+        "updated_at": "2026-07-10 17:10:07"
+      }
+    }
+  },
+  "123": {
+    "gender": "女",
+    "age": "25",
+    "motivation": "喜欢",
+    "habits": "一个人",
+    "companion": "自己",
+    "preference": "",
+    "filled": true,
+    "attraction_states": {
+      "故宫|北京": {
+        "name": "故宫",
+        "city": "北京",
+        "favorite": true,
+        "want_to_go": true,
+        "visited": false,
+        "checked_in": false,
+        "updated_at": "2026-07-17 01:11:06"
+      }
+    }
+  }
+}

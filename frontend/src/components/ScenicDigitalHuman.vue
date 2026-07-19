@@ -59,6 +59,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { askAttractionQuestion, askGuideQuestion } from '@/services/api'
+import { useEdgeTTS } from '@/composables/useEdgeTTS'
 
 const props = withDefaults(defineProps<{
   visible: boolean
@@ -125,9 +126,12 @@ const resolvedWelcomeText = computed(() => {
     : '你好，我是景区数字讲解员。你可以直接问我这个景点的问题。'
 })
 
+const sessionContextKey = computed(() => `${props.mode}|${props.attractionName || ''}|${props.city || ''}|${props.introText || ''}|${props.guidePayload?.tripId || ''}|${props.guidePayload?.nearestAttraction?.name || ''}|${(props.guidePayload?.doneAttractions || []).join(',')}|${(props.guidePayload?.remainingAttractions || []).join(',')}`)
+
 let recognition: any = null
-let synth: SpeechSynthesis | null = null
+const { speakSegments: edgeSpeakSegments, stop: edgeStop } = useEdgeTTS()
 let pendingSegments: string[] = []
+let activeSessionKey = ''
 
 const speechSupported = typeof window !== 'undefined' && !!((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition)
 
@@ -238,11 +242,10 @@ function ensureSpeech() {
       listening.value = false
     }
   }
-  if (w.speechSynthesis && !synth) synth = w.speechSynthesis
 }
 
 function stopSpeaking() {
-  if (synth) synth.cancel()
+  edgeStop()
   currentSegment.value = ''
   pendingSegments = []
 }
@@ -260,28 +263,27 @@ function playSegmentAt(index: number, pushToHistory = true) {
     pendingSegments = []
     return
   }
-  const seg = pendingSegments[index]
-  currentSegment.value = seg
-  setEmotion(seg)
+  currentSegment.value = pendingSegments[index]
+  setEmotion(pendingSegments[index])
   scrollHistory()
 
-  if (!synth) {
-    if (pushToHistory) chatHistory.value.push({ role: 'bot', content: seg })
-    playSegmentAt(index + 1, pushToHistory)
-    return
-  }
-
-  synth.cancel()
-  const u = new SpeechSynthesisUtterance(seg)
-  u.lang = 'zh-CN'
-  u.rate = 1.02
-  u.pitch = 1.15
-  u.onend = () => {
-    if (pushToHistory) chatHistory.value.push({ role: 'bot', content: seg })
+  edgeStop()
+  const remaining = pendingSegments.slice(index)
+  edgeSpeakSegments(remaining, undefined, (segIdx2) => {
+    const actualIdx = index + segIdx2
+    if (actualIdx < pendingSegments.length) {
+      currentSegment.value = pendingSegments[actualIdx]
+      setEmotion(pendingSegments[actualIdx])
+      scrollHistory()
+    }
+  }).then(() => {
+    if (pushToHistory) {
+      for (const s of remaining) chatHistory.value.push({ role: 'bot', content: s })
+    }
     scrollHistory()
-    playSegmentAt(index + 1, pushToHistory)
-  }
-  synth.speak(u)
+    currentSegment.value = ''
+    pendingSegments = []
+  })
 }
 
 function toggleMic() {
@@ -358,17 +360,32 @@ function resetSession() {
   ]
 }
 
+function autoplayIntro() {
+  const intro = props.introText?.trim()
+  if (!intro) return
+  const segs = splitSegments(intro)
+  if (segs.length) playSegments(segs)
+}
+
+function activateSession(sessionKey: string) {
+  activeSessionKey = sessionKey
+  resetSession()
+  nextTick(() => {
+    if (!props.visible || activeSessionKey !== sessionKey) return
+    inputEl.value?.focus()
+    autoplayIntro()
+  })
+}
+
 watch(
   () => props.visible,
   (visible) => {
     ensureSpeech()
     if (visible) {
-      resetSession()
-      nextTick(() => {
-        inputEl.value?.focus()
-      })
+      activateSession(sessionContextKey.value)
       return
     }
+    activeSessionKey = ''
     stopSpeaking()
     listening.value = false
   },
@@ -376,14 +393,10 @@ watch(
 )
 
 watch(
-  () => `${props.mode}|${props.attractionName || ''}|${props.city || ''}|${props.introText || ''}|${props.guidePayload?.tripId || ''}|${props.guidePayload?.nearestAttraction?.name || ''}|${(props.guidePayload?.doneAttractions || []).join(',')}|${(props.guidePayload?.remainingAttractions || []).join(',')}`,
-  () => {
-    if (props.visible) {
-      resetSession()
-      nextTick(() => {
-        inputEl.value?.focus()
-      })
-    }
+  sessionContextKey,
+  (sessionKey) => {
+    if (!props.visible || sessionKey === activeSessionKey) return
+    activateSession(sessionKey)
   }
 )
 

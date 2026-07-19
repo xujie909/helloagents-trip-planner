@@ -172,6 +172,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { applyGuideReplan, getHistory, getHistoryDetail, previewGuideReplan } from '@/services/api'
 import { message } from 'ant-design-vue'
 import ScenicDigitalHuman from '@/components/ScenicDigitalHuman.vue'
+import { useEdgeTTS } from '@/composables/useEdgeTTS'
 
 const trips = ref<any[]>([]); const activeTrip = ref<any>(null)
 const gpsReady = ref(false); const gpsDenied = ref(false); const mapContainer = ref<HTMLElement>(); const userLoc = ref<{lat:number;lng:number}|null>(null)
@@ -185,8 +186,9 @@ const replanPreview = ref<any>(null)
 let mapInstance: any = null; let userMarker: any = null; let attrMarkers: any[] = []
 const nearestAttraction = ref<any>(null); const doneList = ref<string[]>([])
 const preloaded = ref(0); const totalAttractions = ref(0); const ttsReady = ref(false)
-const attractionData = ref<Map<string,{intro:string;utterance:SpeechSynthesisUtterance|null}>>(new Map())
-let gpsTimer: any = null; let syncTimer: any = null; let synth: SpeechSynthesis|null = null
+const attractionData = ref<Map<string,{intro:string}>>(new Map())
+const { speak: edgeSpeak, stop: edgeGuideStop, prefetchSegments: edgeGuidePrefetch } = useEdgeTTS()
+let gpsTimer: any = null; let syncTimer: any = null
 let lastAlertDist: Record<string,number> = {}
 const amapKey = import.meta.env.VITE_AMAP_WEB_JS_KEY || ''
 
@@ -287,13 +289,12 @@ async function startGuide(trip: any) {
     doneList.value=(r.data.tasks||[]).filter((t:any)=>t.done).map((t:any)=>t.name)
     totalAttractions.value=allAttractions.value.length; lastAlertDist={}; replanPreview.value=null; replanNote.value=''; replanMode.value='nearby-first'
     startGPS(); setTimeout(()=>startPreload(),100); setTimeout(()=>initMap(),200)
-    setTimeout(()=>fetchGuideSuggestion(),500)
+    setTimeout(()=>fetchGuideSuggestion(),500); setTimeout(()=>{ edgeSpeak('导览已开启，祝您旅途愉快～') },800)
     syncTimer=setInterval(syncDoneList,30000)
   } catch { message.error('加载行程失败') }
 }
 
 async function startPreload() {
-  if(!synth)synth=window.speechSynthesis
   for(const a of allAttractions.value){
     if(!a.hasCoord&&a.name){
       try{
@@ -313,7 +314,11 @@ async function startPreload() {
     try{
       const r=await fetch(`/api/plaza/attraction/${encodeURIComponent(a.name)}?city=${encodeURIComponent(activeTrip.value.city||'')}`)
       const d=await r.json()
-      if(d.success){const clean=d.data.intro.replace(/[*#\[\]()`>_]/g,'').replace(/###.*\n/g,'').replace(/##.*\n/g,'').trim();const u=new SpeechSynthesisUtterance(clean);u.lang='zh-CN';u.rate=1.05;u.pitch=1.3;attractionData.value.set(a.name,{intro:d.data.intro,utterance:u});preloaded.value++;if(preloaded.value===totalAttractions.value)ttsReady.value=true}
+      if(d.success){attractionData.value.set(a.name,{intro:d.data.intro});preloaded.value++;if(preloaded.value===totalAttractions.value)ttsReady.value=true;
+      // 后台预加载介绍 TTS，点击景点或 GPS 触发时零延迟
+      const _c=d.data.intro.replace(/[*#\[\]()`>_]/g,'').replace(/###.*\n/g,'').replace(/##.*\n/g,'').trim()
+      if(_c) edgeGuidePrefetch([`您已到达${a.name}，下面为您介绍。${_c}`])
+    }
     }catch{}
   }
   if(pending.length===0)ttsReady.value=true
@@ -369,9 +374,42 @@ function checkProximity() {
 }
 function calcDist(lat1:number,lng1:number,lat2:number,lng2:number):number{const R=6371000;const dLat=(lat2-lat1)*Math.PI/180;const dLng=(lng2-lng1)*Math.PI/180;const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a))}
 
-function stopNarration(){if(!synth)synth=window.speechSynthesis;synth?.cancel()}
-function speakAlert(text:string){if(showGuideHuman.value)return;if(!synth)synth=window.speechSynthesis;synth.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=1.1;u.pitch=1.4;synth.speak(u)}
-async function playIntro(name:string){if(showGuideHuman.value)return;if(!synth)synth=window.speechSynthesis;synth.cancel();const alert=new SpeechSynthesisUtterance(`您已到达${name}，下面为您介绍`);alert.lang='zh-CN';alert.rate=1.1;alert.pitch=1.4;synth.speak(alert);let utter=attractionData.value.get(name)?.utterance;if(!utter){try{const r=await fetch(`/api/plaza/attraction/${encodeURIComponent(name)}?city=${encodeURIComponent(activeTrip.value.city||'')}`);const d=await r.json();if(d.success){const clean=d.data.intro.replace(/[*#\[\]()`>_]/g,'').replace(/###.*\n/g,'').replace(/##.*\n/g,'').trim();utter=new SpeechSynthesisUtterance(clean);utter.lang='zh-CN';utter.rate=1.05;utter.pitch=1.3;attractionData.value.set(name,{intro:d.data.intro,utterance:utter})}}catch{}}if(utter)synth.speak(utter);if(!doneList.value.includes(name)){doneList.value.push(name);try{const tr=await fetch(`/api/trip/history/${activeTrip.value.id}`,{headers:{'X-Username':localStorage.getItem('username')||''}});const td=await tr.json();if(td.success){const tasks=(td.data.tasks||[]).map((t:any)=>{if(t.name===name||(t.type==='attraction'&&t.name.includes(name)))return{...t,done:true};return t});await fetch(`/api/trip/history/${activeTrip.value.id}/tasks`,{method:'PUT',headers:{'Content-Type':'application/json','X-Username':localStorage.getItem('username')||''},body:JSON.stringify({tasks})})}}catch{}}}
+function stopNarration(){edgeGuideStop()}
+function speakAlert(text:string){if(showGuideHuman.value)return;edgeGuideStop();edgeSpeak(text)}
+async function playIntro(name:string){
+  if(showGuideHuman.value)return
+  edgeGuideStop()
+  // 等待微任务让 stop 生效
+  await new Promise(r => setTimeout(r, 50))
+
+  const data=attractionData.value.get(name)
+  let intro = data?.intro || ''
+  if(!intro){
+    try{
+      const r=await fetch(`/api/plaza/attraction/${encodeURIComponent(name)}?city=${encodeURIComponent(activeTrip.value.city||'')}`)
+      const d=await r.json()
+      if(d.success){intro=d.data.intro;attractionData.value.set(name,{intro})}
+    }catch{}
+  }
+  const clean=intro.replace(/[*#\[\]()`>_]/g,'').replace(/###.*\n/g,'').replace(/##.*\n/g,'').trim()
+  const fullText = `您已到达${name}，下面为您介绍。${clean}`
+  edgeSpeak(fullText)
+
+  if(!doneList.value.includes(name)){
+    doneList.value.push(name)
+    try{
+      const tr=await fetch(`/api/trip/history/${activeTrip.value.id}`,{headers:{'X-Username':localStorage.getItem('username')||''}})
+      const td=await tr.json()
+      if(td.success){
+        const tasks=(td.data.tasks||[]).map((t:any)=>{
+          if(t.name===name||(t.type==='attraction'&&t.name.includes(name)))return{...t,done:true}
+          return t
+        })
+        await fetch(`/api/trip/history/${activeTrip.value.id}/tasks`,{method:'PUT',headers:{'Content-Type':'application/json','X-Username':localStorage.getItem('username')||''},body:JSON.stringify({tasks})})
+      }
+    }catch{}
+  }
+}
 async function syncDoneList(){
   if(!activeTrip.value) return
   try{
@@ -451,8 +489,8 @@ function closeGuideHuman(){showGuideHuman.value=false}
 
 function stopGuide(){if(gpsTimer)clearInterval(gpsTimer);if(syncTimer)clearInterval(syncTimer);stopNarration();if(mapInstance)mapInstance.destroy();mapInstance=null;userMarker=null;attrMarkers=[];activeTrip.value=null;userLoc.value=null;gpsReady.value=false;gpsDenied.value=false;guideSuggestion.value='';showGuideHuman.value=false;attractionData.value.clear();preloaded.value=0;ttsReady.value=false;replanPreview.value=null;replanNote.value='';replanMode.value='nearby-first'}
 
-onMounted(async()=>{if(window.speechSynthesis)synth=window.speechSynthesis;await loadTrips()})
-onUnmounted(()=>{if(gpsTimer)clearInterval(gpsTimer);if(syncTimer)clearInterval(syncTimer);if(synth)synth.cancel()})
+onMounted(async()=>{await loadTrips()})
+onUnmounted(()=>{if(gpsTimer)clearInterval(gpsTimer);if(syncTimer)clearInterval(syncTimer);edgeGuideStop()})
 </script>
 
 <style scoped>

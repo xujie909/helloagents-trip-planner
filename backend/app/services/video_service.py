@@ -273,8 +273,21 @@ def sync_task_from_history(task_id: str, username: str) -> Optional[VideoTask]:
 
 
 def get_task(task_id: str) -> Optional[VideoTask]:
-    """获取任务状态"""
-    return _tasks.get(task_id)
+    """获取任务状态（自动检测超时）"""
+    task = _tasks.get(task_id)
+    if task and task.status == "processing":
+        # 运行时超时检测：超过 45 分钟未更新 → 自动标记 error
+        try:
+            last_update = datetime.fromisoformat(task.updated_at)
+            if (datetime.now() - last_update) > timedelta(minutes=45):
+                task.status = "error"
+                task.message = "任务超时（超过 45 分钟未更新），可能因渲染进程卡死而中断，请重新生成"
+                task.updated_at = _now_iso()
+                _upsert_history(task)
+                print(f"[VideoService] Runtime stale task recovered: {task_id}")
+        except ValueError:
+            pass
+    return task
 
 
 class VideoService:
@@ -287,9 +300,14 @@ class VideoService:
         self.image_root = PUBLIC_IMAGES_DIR
         self.render_audio_root = RENDER_AUDIO_DIR
         self.render_image_root = RENDER_IMAGES_DIR
-        self.remotion_concurrency = max(1, int(settings.remotion_concurrency or 4))
+        self.remotion_concurrency = max(1, int(settings.remotion_concurrency or 8))
         self.puppeteer_executable_path = settings.get_puppeteer_executable_path()
-        self._executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="video-gen")
+        # max_workers=2：允许一个任务渲染时另一个任务可并行执行（脚本生成/TTS/图片下载）
+        # 渲染步骤内部由 Remotion --concurrency 控制 CPU 占用，避免资源争抢
+        self._executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="video-gen")
+        # 追踪当前执行中的任务 ID，用于去重和取消
+        self._active_task_id: Optional[str] = None
+        self._task_lock = threading.Lock()
 
         if not self.video_generator_dir.exists():
             raise RuntimeError(f"视频生成目录不存在: {self.video_generator_dir}")
@@ -303,6 +321,8 @@ class VideoService:
         self.render_image_root.mkdir(parents=True, exist_ok=True)
         VIDEO_DATA_DIR.mkdir(parents=True, exist_ok=True)
         self._ensure_placeholder_image()
+        # 恢复服务重启前的僵尸任务（超过30分钟未更新的processing任务标记为error）
+        self._recover_stale_tasks()
 
     def _ensure_placeholder_image(self):
         """确保存在可用的占位图，避免本地渲染时因外部图库缺图而失败"""
@@ -325,6 +345,47 @@ class VideoService:
             placeholder = target_dir / PLACEHOLDER_IMAGE_NAME
             if not placeholder.exists():
                 placeholder.write_text(svg_content, encoding="utf-8")
+
+    def _recover_stale_tasks(self):
+        """恢复僵尸任务：将超过 30 分钟未更新的 processing 任务标记为 error
+
+        解决服务重启/崩溃后历史记录中遗留的 "processing" 状态任务
+        永久阻塞新任务的问题（尤其是 max_workers 受限时）。
+        """
+        stale_timeout_minutes = 30
+        now = datetime.now()
+
+        for history_file in VIDEO_DATA_DIR.glob("video_history_*.json"):
+            try:
+                items = json.loads(history_file.read_text(encoding="utf-8"))
+                changed = False
+                for item in items:
+                    if item.get("status") != "processing":
+                        continue
+                    updated_at = item.get("updated_at", "")
+                    if not updated_at:
+                        item["status"] = "error"
+                        item["message"] = "任务状态丢失（服务异常重启），请重新生成"
+                        item["updated_at"] = now.isoformat(timespec="seconds")
+                        changed = True
+                        continue
+                    try:
+                        last_update = datetime.fromisoformat(updated_at)
+                        if (now - last_update) > timedelta(minutes=stale_timeout_minutes):
+                            item["status"] = "error"
+                            item["message"] = f"任务超时（超过 {stale_timeout_minutes} 分钟未更新），可能因服务重启或渲染进程卡死而中断，请重新生成"
+                            item["updated_at"] = now.isoformat(timespec="seconds")
+                            changed = True
+                            print(f"[VideoService] Recovered stale task: {item.get('task_id')} ({item.get('scenic_name')})")
+                    except ValueError:
+                        item["status"] = "error"
+                        item["message"] = "任务状态异常（时间解析失败），请重新生成"
+                        item["updated_at"] = now.isoformat(timespec="seconds")
+                        changed = True
+                if changed:
+                    history_file.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
+            except Exception as e:
+                print(f"[VideoService] Failed to recover stale tasks from {history_file.name}: {e}")
 
     def _task_audio_dir(self, task_id: str) -> Path:
         return self.audio_root / task_id
@@ -440,6 +501,17 @@ class VideoService:
         """
         self._cleanup_storage()
 
+        # 防重复：同一用户对同一景点已有 processing 任务时拒绝提交
+        safe_username = (username or "guest").strip() or "guest"
+        for existing in _tasks.values():
+            if (existing.username == safe_username
+                    and existing.scenic_name == scenic_name.strip()
+                    and existing.status == "processing"):
+                raise RuntimeError(
+                    f"「{scenic_name}」已有正在生成的任务（{existing.task_id}），"
+                    f"请等待完成或稍后重试"
+                )
+
         task_id = f"vid_{uuid.uuid4().hex[:12]}"
         now = _now_iso()
         task = VideoTask(
@@ -448,7 +520,7 @@ class VideoService:
             progress=0,
             message="正在准备...",
             scenic_name=scenic_name,
-            username=(username or "guest").strip() or "guest",
+            username=safe_username,
             created_at=now,
             updated_at=now,
             trip_id=str(trip_id or "").strip(),
@@ -461,9 +533,11 @@ class VideoService:
 
         # 后台线程执行生成，避免阻塞 HTTP 响应
         def _run():
+            with self._task_lock:
+                self._active_task_id = task_id
             try:
                 self._prepare_task_dirs(task_id)
-                self._do_generate(task_id, scenic_name, username)
+                self._do_generate(task_id, scenic_name, safe_username)
             except Exception as e:
                 task.status = "error"
                 task.message = f"生成失败: {str(e)}"
@@ -473,6 +547,9 @@ class VideoService:
                 self._cleanup_render_staging(task_id)
                 print(f"[VideoService] Task {task_id} failed: {e}")
             finally:
+                with self._task_lock:
+                    if self._active_task_id == task_id:
+                        self._active_task_id = None
                 self._cleanup_storage(current_task_id=task_id)
 
         self._executor.submit(_run)
@@ -702,8 +779,8 @@ class VideoService:
                         success = True
                         break
                     else:
-                        stderr = result.stderr.decode()[:100] if result.stderr else ""
-                        print(f"[VideoService] TTS seg-{i:02d} voice={voice} failed: {stderr}")
+                        stderr_text = (result.stderr or "")[:100]
+                        print(f"[VideoService] TTS seg-{i:02d} voice={voice} failed (rc={result.returncode}): {stderr_text}")
                 except Exception as e:
                     print(f"[VideoService] TTS seg-{i:02d} voice={voice} error: {e}")
 
@@ -938,7 +1015,7 @@ class VideoService:
             str(output_path),
             f"--props={props_json}",
             "--codec", "h264",
-            "--crf", "26",
+            "--crf", "28",
             "--width", "1280",
             "--height", "720",
             "--concurrency", str(self.remotion_concurrency),
